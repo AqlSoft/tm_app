@@ -13,9 +13,217 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/auth/styles.css') }}"/>
+    <link href="{{ asset('assets/admin/css/sidebar.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/my-custom-styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/admin-layout.css') }}" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        /* RTL Support */
+        [dir="rtl"] .ltr\:ml-64 {
+            margin-left: 0;
+            margin-right: 12rem;
+        }
+        
+        [dir="rtl"] .ltr\:mr-64 {
+            margin-right: 0;
+            margin-left: 12rem;
+        }
+        
+        /* Sidebar */
         .sidebar {
-            height: 100vh; /* اجعل الشريط الجانبي يغطي كامل ارتفاع الصفحة */
+            width: 12rem;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background-color: #1a1a1a;
+            overflow-y: auto;
+            z-index: 50;
+            padding: 0;
+        }
+
+        /* تخصيص شريط التمرير */
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+
+        [dir="ltr"] .sidebar {
+            left: 0;
+        }
+        
+        [dir="rtl"] .sidebar {
+            right: 0;
+        }
+        ul.main-menu {
+            width: 100%;
+            border: 1px solid;
+            margin: 0;
+        }
+
+        ul.main-menu, ul.main-menu ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.main-menu li li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Main Content */
+        .main-content {
+            transition: margin 0.3s;
+            padding-top: 1rem;
+        }
+        
+        [dir="ltr"] .main-content {
+            margin-left: 16rem;
+        }
+        
+        [dir="rtl"] .main-content {
+            margin-right: 16rem;
+        }
+        
+        @media (max-width: 640px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            
+            [dir="rtl"] .sidebar {
+                transform: translateX(100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+        }
+
+        /* تنسيقات القائمة */
+        .nav-link {
+            color: #a0aec0;
+            padding: 0.25rem 0.5rem;
+            display: flex;
+            width: 100%;
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.25rem;
+            gap: 0.375rem;
+        }
+        button.nav-link {
+            width: 100%;
+            margin: 0;
+            text-align: start;
+        }
+        button.nav-link span {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff !important;
+            font-weight: 500;
+        }
+
+        .nav-link i {
+            width: 1.25rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        /* تنسيقات القوائم الفرعية */
+        .collapse .nav-link {
+            padding-inline-start: .5rem;
+        }
+
+        /* تنسيق زر القائمة المنسدلة */
+        button.nav-link {
+            background: none;
+            border: none;
+            cursor: pointer;
+            justify-content: space-between;
+            margin: 0;
+        }
+
+        button.nav-link::after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            transition: transform 0.2s;
+            font-size: 0.75rem;
+            opacity: 0.75;
+        }
+
+        button.nav-link[aria-expanded="true"]::after {
+            transform: rotate(180deg);
+        }
+
+        /* تنسيق مبدل اللغة */
+        .sidebar .mt-8 .nav-link {
+            justify-content: center;
+            padding: 0.25rem;
+            width: auto;
+        }
+
+        /* تقليل المسافات */
+        .sidebar .p-4 {
+            padding: 0.5rem;
+        }
+
+        .sidebar .mb-6 {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar .py-4 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar .gap-4 {
+            gap: 0.5rem;
+        }
+
+        .sidebar .mt-2 {
+            margin-top: 0.25rem;
+        }
+
+        .sidebar .space-y-2 > * + * {
+            margin-top: 0;
+        }
+
+        .sidebar .mt-8 {
+            margin-top: 1rem;
+        }
+
+        /* تنسيق منصب المستخدم */
+        .sidebar .user-position {
+            color: #60a5fa;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
         }
         .nav-link.active {
             font-weight: bold;
@@ -24,54 +232,40 @@
         }
     </style>
 </head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- الشريط الجانبي -->
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <h4>بيانات المستخدم</h4>
-                    <p>اسم المستخدم: {{ Auth::user()->name }}</p>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{{ route('admin-roles-index') }}">
-                                {{__('home.roles_list')}}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin-roles-create') }}">
-                                {{__('home.add_new_role')}}
-                            </a>
-                        </li>
-                        <!-- إضافة روابط أخرى هنا -->
-                    </ul>
-                </div>
-            </nav>
+<body class="bg-gray-100">
+    <!-- Mobile Toggle Button -->
+    <button onclick="toggleSidebar()" class="fixed top-4 z-50 p-2 bg-gray-800 text-white rounded-lg shadow-lg sm:hidden" style="{{ app()->getLocale() == 'ar' ? 'right: 1rem' : 'left: 1rem' }}">
+        <i class="fas fa-bars"></i>
+    </button>
 
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <!-- الشريط العلوي -->
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">{{__('home.dashboard')}}</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ __('home.'.Session::get('locale')) }}
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                                <li><a class="dropdown-item" href="{{ route('locale', 'ar') }}">العربية</a></li>
-                                <li><a class="dropdown-item" href="{{ route('locale', 'en') }}">English</a></li>
-                            </ul>
-                        </div>
-                        <input type="text" placeholder="بحث..." class="form-control" style="width: 300px;">
-                    </div>
-                </div>
-
-                <!-- المحتوى الرئيسي -->
-                @yield('content')
-            </main>
+    @include('admin.inc.sidebar')
+    
+    <div class="main-content min-h-screen p-4">
+        <div class="max-w-7xl mx-auto">
+            @yield('content')
         </div>
     </div>
-    <!-- إضافة ملفات JavaScript هنا -->
+
+    <!-- Scripts -->
+    <script>
+        // Toggle Sidebar on Mobile
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleButton = document.querySelector('button[onclick="toggleSidebar()"]');
+            
+            if (window.innerWidth <= 640 && 
+                sidebar.classList.contains('open') && 
+                !sidebar.contains(event.target) && 
+                event.target !== toggleButton) {
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

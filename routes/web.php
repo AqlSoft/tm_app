@@ -4,19 +4,21 @@ use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\ProjectController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\LocaleController;
+// تغيير اللغة
+Route::get('lang/{locale}', [LocalizationController::class, 'setLang'])->name('locale');
 
-Route::get('/locale/{locale}', [LocaleController::class, 'setLocale'])->name('locale');
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/password/request', [AuthController::class, 'passwordRequest'])->name('password-request');
@@ -24,19 +26,32 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     
     Route::get('/dashboard', function () {
         return view('admin.dashboard.home');
     })->name('dashboard');
 
-    Route::group([
-        
-        'prefix' => 'roles',
-        'name' => 'roles-',
-    ], function () {
+    Route::prefix('tasks')->name('tasks-')->group(function () {
+        Route::get('/', [TaskController::class, 'index'])->name('index');
+        Route::get('create', [TaskController::class, 'create'])->name('create');
+        Route::post('store', [TaskController::class, 'store'])->name('store');
+        Route::get('{task}', [TaskController::class, 'show'])->name('show');
+        Route::get('{task}/edit', [TaskController::class, 'edit'])->name('edit');
+        Route::put('{task}', [TaskController::class, 'update'])->name('update');
+        Route::delete('{task}', [TaskController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('projects')->name('projects-')->group(function () {
+        Route::get('/', [ProjectController::class, 'index'])->name('index');
+        Route::get('create', [ProjectController::class, 'create'])->name('create');
+        Route::post('store', [ProjectController::class, 'store'])->name('store');
+        Route::get('{project}', [ProjectController::class, 'show'])->name('show');
+        Route::get('{project}/edit', [ProjectController::class, 'edit'])->name('edit');
+        Route::put('{project}', [ProjectController::class, 'update'])->name('update');
+        Route::delete('{project}', [ProjectController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('roles')->name('roles-')->group(function () {
         Route::resource('users', UserController::class);
-        Route::resource('tasks', TaskController::class);
         Route::get('/', [RoleController::class, 'index'])->name('roles-index');
         Route::get('create', [RoleController::class, 'create'])->name('roles-create');
         Route::post('store', [RoleController::class, 'store'])->name('roles-store');

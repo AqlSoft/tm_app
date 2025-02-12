@@ -1,0 +1,95 @@
+.main-sidebar {
+    background-color: #fff;
+    border-right: 1px solid #e5e5e5;
+    height: 100vh;
+    width: 220px !important;
+    position: fixed;
+    padding: 0;
+    z-index: 9999999;
+}
+
+.sidebar-brand {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 1rem;
+}
+
+.sidebar-brand img {
+    margin-right: 0.75rem;
+}
+
+/* القوائم الرئيسية */
+.btn-toggle {
+    width: 100%;
+    text-align: left;
+    padding: 0.25rem 1rem;
+    color: #1c1e21;
+    background: none;
+    border: none;
+    font-weight: 500;
+}
+
+.btn-toggle:hover {
+    background-color: #f0f2f5;
+}
+
+/* تمييز القائمة الرئيسية المفتوحة */
+.btn-toggle[aria-expanded="true"] {
+    background-color: #e8f0fe;
+    color: #0866ff;
+}
+
+.btn-toggle[aria-expanded="true"] i {
+    color: #0866ff;
+}
+
+.btn-toggle i {
+    width: 24px;
+    margin-right: 0.75rem;
+}
+
+/* القوائم الفرعية */
+.btn-toggle-nav {
+    padding-left: 2rem; /* زيادة المسافة البادئة */
+    background-color: #f8f9fa; /* لون خلفية مختلف للقوائم الفرعية */
+}
+
+.btn-toggle-nav a {
+    padding: 0.25rem 1rem;
+    color: #1c1e21;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    margin: 0.125rem 0;
+}
+
+/* تمييز الرابط الفرعي عند التحويم */
+.btn-toggle-nav a:hover {
+    background-color: #f0f2f5;
+    color: #0866ff;
+}
+
+/* تمييز الرابط الفرعي النشط */
+.btn-toggle-nav a.active {
+    background-color: #e8f0fe;
+    color: #0866ff;
+}
+
+.btn-toggle-nav a.active i {
+    color: #0866ff;
+}
+
+.btn-toggle-nav a i {
+    width: 20px;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.collapse.show {
+    display: block;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem !important;
+}

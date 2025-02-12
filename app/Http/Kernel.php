@@ -25,8 +25,7 @@ class Kernel extends HttpKernel
     protected $middlewareGroups = [
         'web' => [
             // Add your web middleware here
-            \App\Http\Middleware\SetLocaleMiddleware::class,
-
+            \App\Http\Middleware\SetLocale::class,
         ],
 
         'api' => [

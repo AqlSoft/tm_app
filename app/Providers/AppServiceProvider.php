@@ -26,13 +26,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         // You can access the request object from the service container
         
-        $locale = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
-        if ($locale[0] == 'locale') {
-           Session::put('locale', $locale[1]);
-           App::setLocale(Session::get('locale'));
-        }
-        return redirect()->back();
-        
         
     }
 }
