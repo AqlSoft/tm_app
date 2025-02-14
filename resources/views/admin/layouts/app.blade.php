@@ -11,13 +11,32 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/auth/styles.css') }}"/>
     <link href="{{ asset('assets/admin/css/sidebar.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/css/my-custom-styles.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/my-custom-styles.css') }}">
     <link href="{{ asset('assets/admin/css/admin-layout.css') }}" rel="stylesheet">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
+        :root {
+            --font-family-sans-serif: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        
         body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .modal-title, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+        }
+        
+        .btn {
             font-family: 'Cairo', sans-serif;
         }
         
@@ -230,6 +249,37 @@
             background-color: #007bff; /* لون الخلفية عند التحديد */
             color: white; /* لون النص عند التحديد */
         }
+        
+        /* تخصيص موقع Toastr حسب اتجاه الصفحة */
+        #toast-container.toast-top-right {
+            top: 1rem !important;
+            {{ app()->getLocale() == 'ar' ? 'left' : 'right' }}: 13rem !important;
+            right: auto;
+        }
+
+        /* تخصيص موقع Toastr حسب اتجاه الصفحة */
+        #toast-container.toast-bottom-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }} {
+            bottom: 1rem !important;
+            {{ app()->getLocale() == 'ar' ? 'left' : 'right' }}: 2rem !important;
+            right: auto;
+        }
+
+        /* تخصيص شكل التوست حسب اتجاه اللغة */
+        #toast-container .toast {
+            direction: {{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }};
+            padding: 15px 15px 15px 50px;
+        }
+
+        #toast-container .toast-title {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        /* تعديل موضع الأيقونة حسب اتجاه اللغة */
+        #toast-container > div {
+            {{ app()->getLocale() == 'ar' ? 'padding-right: 50px !important; padding-left: 15px !important;' : 'padding-left: 50px !important; padding-right: 15px !important;' }}
+            background-position: {{ app()->getLocale() == 'ar' ? 'right' : 'left' }} 15px center !important;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -247,6 +297,46 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        // Toastr Configuration
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}",
+            "preventDuplicates": false,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "rtl": {{ app()->getLocale() == 'ar' ? 'true' : 'false' }}
+        };
+
+        // عرض رسائل النجاح
+        @if(Session::has('success'))
+            toastr.success("{{ Session::get('success') }}");
+        @endif
+
+        // عرض رسائل الخطأ
+        @if(Session::has('error'))
+            toastr.error("{{ Session::get('error') }}");
+        @endif
+
+        // عرض أخطاء التحقق
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
+    </script>
     <script>
         // Toggle Sidebar on Mobile
         function toggleSidebar() {
@@ -266,7 +356,5 @@
             }
         });
     </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

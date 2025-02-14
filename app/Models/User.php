@@ -24,6 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'created_by',
+        'updated_by'
     ];
 
     /**
@@ -35,6 +37,25 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     *  Jobs that should run when the model is created.
+     *  @return void
+     */ 
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            $user->profile()->create();
+        });
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public static $jobs_titles = 
+    ['general_manager', 'project_manager', 'software_engineer', 'project_coordinator', 'quality_assurance_engineer'];
 
     /**
      * The attributes that should be cast.

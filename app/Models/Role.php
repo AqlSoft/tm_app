@@ -12,9 +12,16 @@ class Role extends Model
 {
     use HasFactory;
 
+    protected $table = 'roles';
+    public $timestamps = true;
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'created_by',
+        'updated_by',
+        
     ];
 
     public function users()

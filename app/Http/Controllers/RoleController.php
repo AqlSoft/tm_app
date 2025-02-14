@@ -21,12 +21,20 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
 
-        Role::create($request->all());
-        return Redirect::route('roles.index')->with('success', 'Role created successfully.');
+        $validated = $request->validate([
+            'name' => 'required|string|max:72|unique:roles',
+            'description' => 'required|string|max:255',
+        ]);
+        $validated['created_by'] = auth()->id();
+        $validated['updated_by'] = auth()->id();
+
+        try {
+            Role::create($validated);
+            return Redirect::back()->with('success', __('roles.created_successfully'));
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', __('roles.create_failed' . ': ' . $e->getMessage()));
+        }
     }
 
     public function edit($id)
@@ -37,19 +45,29 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $validated = $request->validate([
+            'name' => 'required|string|max:72|unique:roles,name,'.$id,
+            'description' => 'required|string|max:255',
         ]);
+        $validated['updated_by'] = auth()->id();
 
         $role = Role::findOrFail($id);
-        $role->update($request->all());
-        return Redirect::route('roles.index')->with('success', 'Role updated successfully.');
+        try {
+            $role->update($validated);
+                return Redirect::back()->with('success', __('roles.updated_successfully'));
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', __('roles.update_failed'));
+        }
     }
 
     public function destroy($id)
     {
         $role = Role::findOrFail($id);
-        $role->delete();
-        return Redirect::route('roles.index')->with('success', 'Role deleted successfully.');
+        try {
+            $role->delete();
+            return Redirect::back()->with('success', __('roles.deleted_successfully'));
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', __('roles.delete_failed'));
+        }
     }
 }

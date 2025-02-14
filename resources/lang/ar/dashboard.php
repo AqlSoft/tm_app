@@ -4,6 +4,7 @@ return [
     // languages
     'arabic' => 'العربية',
     'english' => 'English',
+    // main
     'roles_list' => 'قائمة الأدوار',
     'add_new_role' => 'إضافة دور جديد',
     'projects_list' => 'قائمة المشاريع',
@@ -15,6 +16,9 @@ return [
     'projects' => 'المشاريع',
     'tasks' => 'المهام',    
     // إضافات جديدة
+    'user' => 'مستخدم',
+    
+    // Sidebar
     'stores' => 'المخازن',
     'home' => 'الرئيسية',
     'items' => 'العناصر',
@@ -26,5 +30,10 @@ return [
     'users' => 'المستخدمين',
     'users_list' => 'قائمة المستخدمين',
     'roles' => 'الأدوار',
-    'user' => 'مستخدم',
-];
+    'permissions' => 'الصلاحيات',
+    'clients' => 'العملاء',
+    'clients_list' => 'قائمة العملاء',
+    'contacts' => 'جهات الاتصال',
+    'contacts_list' => 'جهات الاتصالات',
+    'clients_categories'=>'تصنيفات العملاء',
+ ];

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -28,25 +29,26 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'roles' => 'required|array|exists:roles,id'
+            
         ]);
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
-
-        $user->roles()->attach($validated['roles']);
-
-        return redirect()->route('admin.users.index')
-            ->with('success', 'تم إنشاء المستخدم بنجاح');
+        $validated['password'] = Hash::make($validated['password']);
+        $validated['created_by'] = auth()->id();
+        $validated['updated_by'] = auth()->id();
+        
+        try {
+            User::create($validated);
+            return Redirect::back()
+            ->with('success', __('users.created_successfully'));
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', __('users.create_failed' . ': ' . $e->getMessage()));
+        }
     }
 
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $jobs = User::$jobs_titles;
+        return view('admin.users.edit', compact('user', 'roles', 'jobs'));
     }
 
     public function update(Request $request, User $user)
@@ -71,14 +73,23 @@ class UserController extends Controller
             ->with('success', 'تم تحديث المستخدم بنجاح');
     }
 
+    public function show() {
+        
+    }
+
     public function destroy(User $user)
     {
         if ($user->id === auth()->user()->id) {
-            return back()->with('error', 'لا يمكنك حذف حسابك الخاص');
+            return back()->with('error', __('users.cannot_delete_own_account'));
         }
 
-        $user->delete();
-        return redirect()->route('admin.users.index')
-            ->with('success', 'تم حذف المستخدم بنجاح');
+        try {
+            $user->delete();
+            return Redirect::back()
+                ->with('success', __('users.deleted_successfully'));
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', __('users.delete_failed') . ': ' . $e->getMessage());
+        }
+
     }
 }

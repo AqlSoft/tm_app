@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProjectController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +34,48 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         return view('admin.dashboard.home');
     })->name('dashboard');
 
+    Route::prefix('users')->group(function () {
+        Route::get('/list', [UserController::class, 'index'])->name('users-index');
+        Route::get('create', [UserController::class, 'create'])->name('users-create');
+        Route::post('store', [UserController::class, 'store'])->name('users-store');
+        Route::get('{user}', [UserController::class, 'show'])->name('users-show');
+        Route::get('{user}/edit', [UserController::class, 'edit'])->name('users-edit');
+        Route::put('{user}', [UserController::class, 'update'])->name('users-update');
+        Route::delete('{user}', [UserController::class, 'destroy'])->name('users-destroy');
+    });
+    
+    Route::prefix('roles')->name('roles-')->group(function () {
+        Route::get('/list', [RoleController::class, 'index'])->name('index');
+        Route::get('create', [RoleController::class, 'create'])->name('create');
+        Route::post('store', [RoleController::class, 'store'])->name('store');
+        Route::get('{role}', [RoleController::class, 'show'])->name('show');
+        Route::get('{role}/edit', [RoleController::class, 'edit'])->name('edit');
+        Route::put('update/{role}', [RoleController::class, 'update'])->name('update');
+        Route::delete('{role}', [RoleController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('permissions')->name('permissions-')->group(function () {
+        Route::get('/list', [PermissionController::class, 'index'])->name('index');
+        Route::get('create', [PermissionController::class, 'create'])->name('create');
+        Route::post('store', [PermissionController::class, 'store'])->name('store');
+        Route::get('{permission}', [PermissionController::class, 'show'])->name('show');
+        Route::get('{permission}/edit', [PermissionController::class, 'edit'])->name('edit');
+        Route::put('update/{permission}', [PermissionController::class, 'update'])->name('update');
+        Route::delete('{permission}', [PermissionController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('clients')->name('clients-')->group(function () {
+        Route::get('/list', [ClientController::class, 'index'])->name('index');
+        Route::get('create', [ClientController::class, 'create'])->name('create');
+        Route::post('store', [ClientController::class, 'store'])->name('store');
+        Route::get('{client}', [ClientController::class, 'show'])->name('show');
+        Route::get('{client}/edit', [ClientController::class, 'edit'])->name('edit');
+        Route::put('update/{client}', [ClientController::class, 'update'])->name('update');
+        Route::delete('{client}', [ClientController::class, 'destroy'])->name('destroy');
+    });
+
     Route::prefix('tasks')->name('tasks-')->group(function () {
-        Route::get('/', [TaskController::class, 'index'])->name('index');
+        Route::get('/list', [TaskController::class, 'index'])->name('index');
         Route::get('create', [TaskController::class, 'create'])->name('create');
         Route::post('store', [TaskController::class, 'store'])->name('store');
         Route::get('{task}', [TaskController::class, 'show'])->name('show');
@@ -42,7 +84,7 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::delete('{task}', [TaskController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('projects')->name('projects-')->group(function () {
-        Route::get('/', [ProjectController::class, 'index'])->name('index');
+        Route::get('/list', [ProjectController::class, 'index'])->name('index');
         Route::get('create', [ProjectController::class, 'create'])->name('create');
         Route::post('store', [ProjectController::class, 'store'])->name('store');
         Route::get('{project}', [ProjectController::class, 'show'])->name('show');
@@ -50,15 +92,6 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::put('{project}', [ProjectController::class, 'update'])->name('update');
         Route::delete('{project}', [ProjectController::class, 'destroy'])->name('destroy');
     });
-    Route::prefix('roles')->name('roles-')->group(function () {
-        Route::resource('users', UserController::class);
-        Route::get('/', [RoleController::class, 'index'])->name('roles-index');
-        Route::get('create', [RoleController::class, 'create'])->name('roles-create');
-        Route::post('store', [RoleController::class, 'store'])->name('roles-store');
-        Route::get('{role}', [RoleController::class, 'show'])->name('roles-show');
-        Route::get('{role}/edit', [RoleController::class, 'edit'])->name('roles-edit');
-        Route::put('{role}', [RoleController::class, 'update'])->name('roles-update');
-        Route::delete('{role}', [RoleController::class, 'destroy'])->name('roles-destroy');
-    });
+
     
 });

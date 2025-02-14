@@ -103,6 +103,41 @@
                 </div>
             </li>
 
+            <!-- العملاء -->
+            <li>
+                <button class="nav-link w-full {{ Request::is('admin/clients/*') ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#clients-collapse">
+                    <i class="fas fa-users"></i>
+                    <span>{{ __('dashboard.clients') }}</span>
+                </button>
+                <div class="collapse {{ Request::is('admin/clients*') ? 'show' : '' }}" 
+                    id="clients-collapse">
+                    <ul class="mt-1 space-y-0">
+                        <li>
+                            <a href="/admin/clients/list" 
+                                class="nav-link {{ Request::is('admin/clients/list*') ? 'active' : '' }}">
+                                <i class="fas fa-list"></i>
+                                <span>{{ __('dashboard.clients_list') }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{'route('}}" 
+                                class="nav-link {{ Request::is('admin/contacts/list*') ? 'active' : '' }}">
+                                <i class="fas fa-contact-card"></i>
+                                <span>{{ __('dashboard.contacts_list') }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{'route('}}" 
+                                class="nav-link {{ Request::is('admin/clients_categories/list*') ? 'active' : '' }}">
+                                <i class="fas fa-user-tag"></i>
+                                <span>{{ __('dashboard.clients_categories') }}</span>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </div>
+            </li>
             <!-- المستخدمين -->
             <li>
                 <button class="nav-link w-full {{ Request::is('admin/users/*') ? 'active' : '' }}"
@@ -121,24 +156,31 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/admin/users/roles" 
+                            <a href="{{route('admin-roles-index')}}" 
                                 class="nav-link {{ Request::is('admin/users/roles*') ? 'active' : '' }}">
                                 <i class="fas fa-user-tag"></i>
                                 <span>{{ __('dashboard.roles') }}</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('admin-permissions-index')}}" 
+                                class="nav-link {{ Request::is('admin/users/permissions*') ? 'active' : '' }}">
+                                <i class="fas fa-user-tag"></i>
+                                <span>{{ __('dashboard.permissions') }}</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
+
+            <!-- مبدل اللغة -->
+            <li class="pe-3 mt-auto">
+                <a href="{{ route('locale', app()->getLocale() == 'ar' ? ['en'] : ['ar']) }}" 
+                    class="{{ app()->getLocale() == 'ar' ? 'active' : '' }}"> <i class="fa fa-language"></i>
+                    {{ app()->getLocale() == 'ar' ? __('dashboard.arabic') : __('dashboard.english') }}
+                </a>
+            </li>
         </ul>
 
-        <!-- مبدل اللغة -->
-        <div class="mt-6 flex gap-2">
-            <a href="{{ route('locale', app()->getLocale() == 'ar' ? ['en'] : ['ar']) }}" 
-                class="{{ app()->getLocale() == 'ar' ? 'active' : '' }}">
-                {{ app()->getLocale() == 'ar' ? __('dashboard.arabic') : __('dashboard.english') }}
-            </a>
-            
-        </div>
     </div>
 </div>

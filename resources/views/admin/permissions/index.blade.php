@@ -1,7 +1,18 @@
 @extends('admin.layouts.app')
 
 @section('content')
-
+<style>
+    form .input-group >input.form-control,
+    form .input-group >select.form-control,
+    form .input-group >select.form-control option,
+    form .input-group >select.form-select option,
+    form .input-group >button.form-control,
+    form .input-group >button.input-group-text,
+    form .input-group >label.input-group-text
+    {
+        height: 36px;
+    }
+</style>
 <div class="container">
     <div class="view-main-heading d-flex">
         <h1 style="flex:auto">{{__('roles.roles')}}</h1>
