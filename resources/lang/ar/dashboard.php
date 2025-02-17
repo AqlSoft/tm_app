@@ -1,6 +1,15 @@
 <?php
 return [
+
+    // General
+    'general' => 'عام',
+    'not_found' => 'لم يتم العثور على العنصر',
+    'not_assigned' => 'لم يتم التعيين',
     'dashboard' => 'لوحة التحكم',
+    'teams' => 'الفرق',
+    'teams_list' => 'قائمة الفرق',
+    'teams_count' => 'عدد الفرق',
+    'show_teams' => 'عرض الفرق',
     // languages
     'arabic' => 'العربية',
     'english' => 'English',

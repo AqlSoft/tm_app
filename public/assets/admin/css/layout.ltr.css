@@ -1,0 +1,13 @@
+/* Form Inputs Styles */
+form .input-group > input.form-control,
+form .input-group > select.form-control,
+form .input-group > select.form-control option,
+form .input-group > select.form-select option,
+form .input-group > button.form-select,
+form .input-group > button.input-group-text,
+form .input-group > label.input-group-text,
+form .input-group > span.input-group-text,
+form .button-group > button,
+form .button-group > a {
+    height: 36px !important;
+}

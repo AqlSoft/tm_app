@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
+use App\Models\Project;
 
 class Client extends Model
 {
@@ -89,8 +91,12 @@ class Client extends Model
 
     public function getNameAttribute()
     {
-        $prop = 'name_' . session('locale');
-        return $this->$prop;
+        return session('locale') == 'ar' ? $this->name_ar : $this->name_en;
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
 
     // التحقق من عدم تكرار القيم الفريدة
@@ -123,5 +129,13 @@ class Client extends Model
                 throw new \Exception(__('clients.' . $uniqueFields[0] . '_already_exists'));
             }
         });
+    }
+
+    public function invoices() {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function payments() {
+        return $this->hasMany(Payment::class);
     }
 }

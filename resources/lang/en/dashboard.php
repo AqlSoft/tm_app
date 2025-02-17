@@ -1,6 +1,15 @@
 <?php
 return [
+
+    // General
+    'general' => 'General',
+    'not_found' => 'Not Found',
+    'not_assigned' => 'Not Assigned',
     'dashboard' => 'Dashboard',
+    'teams' => 'Teams',
+    'teams_list' => 'Teams List',
+    'teams_count' => 'Teams Count',
+    'show_teams' => 'Show Teams',
     // languages
     'arabic' => 'العربية',
     'english' => 'English',

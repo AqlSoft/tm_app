@@ -1,0 +1,78 @@
+fieldset {
+    margin-bottom: 2rem;
+    border-radius: 0.25rem;
+    position: relative;
+}
+
+fieldset * {
+    font-family: "Cairo", sans-serif;
+}
+
+legend {
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: auto;
+    padding: 0 1rem;
+    position: absolute;
+    right: 1rem;
+    left: auto;
+}
+
+/* تخصيص موقع Toastr حسب اتجاه الصفحة */
+#toast-container.toast-top-right {
+    top: 1rem !important;
+    left: 13rem !important;
+    right: auto;
+}
+
+/* تخصيص موقع Toastr حسب اتجاه الصفحة */
+#toast-container.toast-bottom-left {
+    bottom: 1rem !important;
+    left: 2rem !important;
+    right: auto;
+}
+
+/* تخصيص شكل التوست حسب اتجاه اللغة */
+#toast-container .toast {
+    direction: rtl;
+    padding: 15px 15px 15px 50px;
+}
+
+#toast-container .toast-title {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* تعديل موضع الأيقونة حسب اتجاه اللغة */
+#toast-container > div {
+    padding: 0 50px 0 0 !important;
+    background-position: right 15px center !important;
+}
+
+/* Form Inputs Styles */
+form .input-group > input.form-control,
+form .input-group > select.form-control,
+form .input-group > select.form-control option,
+form .input-group > select.form-select option,
+form .input-group > button.form-select,
+form .input-group > button.input-group-text,
+form .input-group > label.input-group-text,
+form .input-group > span.input-group-text,
+form .button-group > button,
+form .button-group > a {
+    height: 36px !important;
+}
+form .input-group .input-group-text,
+form .input-group .form-control {
+    border-radius: 0;
+}
+form .input-group .input-group-text:first-child,
+form .input-group .form-control:first-child {
+    border-bottom-right-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+}
+form .input-group .input-group-text:last-child,
+form .input-group .form-control:last-child {
+    border-bottom-left-radius: 0.5rem !important;
+    border-top-left-radius: 0.5rem !important;
+}

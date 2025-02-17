@@ -156,6 +156,13 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{route('admin-teams-index')}}" 
+                                class="nav-link {{ Request::is('admin/teams/*') ? 'active' : '' }}">
+                                <i class="fas fa-user-tag"></i>
+                                <span>{{ __('dashboard.teams_list') }}</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{route('admin-roles-index')}}" 
                                 class="nav-link {{ Request::is('admin/users/roles*') ? 'active' : '' }}">
                                 <i class="fas fa-user-tag"></i>

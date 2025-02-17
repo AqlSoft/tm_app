@@ -73,11 +73,16 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Client $client)
+    public function show($id)
     {
         //
+        $client = Client::with('projects')->findOrFail($id);
+        $client->invoices = [];
+        $client->payments = [];
+        $client->notes = [];
 
-        return view('admin.clients.show', compact('client'));
+        $types = Client::$types;
+        return view('admin.clients.show', compact('client', 'types'));
     }
 
     /**

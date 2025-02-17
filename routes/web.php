@@ -4,10 +4,14 @@ use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TeamController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
@@ -74,15 +78,16 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::delete('{client}', [ClientController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix('tasks')->name('tasks-')->group(function () {
-        Route::get('/list', [TaskController::class, 'index'])->name('index');
-        Route::get('create', [TaskController::class, 'create'])->name('create');
-        Route::post('store', [TaskController::class, 'store'])->name('store');
-        Route::get('{task}', [TaskController::class, 'show'])->name('show');
-        Route::get('{task}/edit', [TaskController::class, 'edit'])->name('edit');
-        Route::put('{task}', [TaskController::class, 'update'])->name('update');
-        Route::delete('{task}', [TaskController::class, 'destroy'])->name('destroy');
+    Route::prefix('payments')->name('payments-')->group(function () {
+        Route::get('/list', [PaymentController::class, 'index'])->name('index');
+        Route::get('create', [PaymentController::class, 'create'])->name('create');
+        Route::post('store', [PaymentController::class, 'store'])->name('store');
+        Route::get('{payment}', [PaymentController::class, 'show'])->name('show');
+        Route::get('{payment}/edit', [PaymentController::class, 'edit'])->name('edit');
+        Route::put('{payment}', [PaymentController::class, 'update'])->name('update');
+        Route::delete('{payment}', [PaymentController::class, 'destroy'])->name('destroy');
     });
+
     Route::prefix('projects')->name('projects-')->group(function () {
         Route::get('/list', [ProjectController::class, 'index'])->name('index');
         Route::get('create', [ProjectController::class, 'create'])->name('create');
@@ -91,6 +96,39 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::get('{project}/edit', [ProjectController::class, 'edit'])->name('edit');
         Route::put('{project}', [ProjectController::class, 'update'])->name('update');
         Route::delete('{project}', [ProjectController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('invoices')->name('invoices-')->group(function () {
+        Route::get('/list', [InvoiceController::class, 'index'])->name('index');
+        Route::get('create', [InvoiceController::class, 'create'])->name('create');
+        Route::post('store', [InvoiceController::class, 'store'])->name('store');
+        Route::get('{invoice}', [InvoiceController::class, 'show'])->name('show');
+        Route::get('{invoice}/edit', [InvoiceController::class, 'edit'])->name('edit');
+        Route::put('{invoice}', [InvoiceController::class, 'update'])->name('update');
+        Route::delete('{invoice}', [InvoiceController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('notes')->name('notes-')->group(function () {
+        Route::get('/list', [NoteController::class, 'index'])->name('index');
+        Route::get('create', [NoteController::class, 'create'])->name('create');
+        Route::post('store', [NoteController::class, 'store'])->name('store');
+        Route::get('{note}', [NoteController::class, 'show'])->name('show');
+        Route::get('{note}/edit', [NoteController::class, 'edit'])->name('edit');
+        Route::put('{note}', [NoteController::class, 'update'])->name('update');
+        Route::delete('{note}', [NoteController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('teams')->name('teams-')->group(function () {
+        Route::get('/list', [TeamController::class, 'index'])->name('index');
+        Route::get('create', [TeamController::class, 'create'])->name('create');
+        Route::post('store', [TeamController::class, 'store'])->name('store');
+        Route::get('{team}', [TeamController::class, 'show'])->name('show');
+        Route::get('{team}/edit', [TeamController::class, 'edit'])->name('edit');
+        Route::put('{team}', [TeamController::class, 'update'])->name('update');
+        Route::delete('{team}', [TeamController::class, 'destroy'])->name('destroy');
+        
+        Route::post('add/member', [TeamController::class, 'add_member'])->name('add-member');
+        
     });
 
     
