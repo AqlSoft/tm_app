@@ -4,43 +4,47 @@
 
 <div class="container">
     <div class="view-main-heading d-flex">
-        <h1 style="flex:auto">{{__('clients.clients_list_heading')}}</h1>
-        <a href="{{route('admin-clients-create')}}" 
-        data-bs-toggle="modal" data-bs-target="#addClientModal" 
-        class="btn mb-3 btn-sm btn-outline-primary"><i class="fa fa-plus"></i> {{__('clients.create')}}</a>
+        <h1 style="flex:auto">{{__('projects.projects_list_heading')}}</h1>
+        <a href="{{route('admin-projects-create')}}" 
+        {{-- data-bs-toggle="modal" data-bs-target="#addProjectModal"  --}}
+        class="btn mb-3 btn-sm btn-outline-primary"><i class="fa fa-plus"></i> {{__('projects.create')}}</a>
     </div>
     <table class="table">
         <thead>
             <tr>
                 <th>#</th>
-                <th>{{__('clients.mobile_number')}}</th>
-                <th>{{__('clients.name')}}</th>
-                <th>{{__('clients.s_number')}}</th>
-                <th>{{__('clients.city')}}</th>
-                <th>{{__('clients.actions')}}</th>
+                <th>{{__('projects.th_client')}}</th>
+                <th>{{__('projects.th_name')}}</th>
+                <th>{{__('projects.th_description')}}</th>
+                <th>{{__('projects.th_s_number')}}</th>
+                <th>{{__('projects.th_start_date')}}</th>
+                <th>{{__('projects.th_actions')}}</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($clients as $client)
+            @forelse($projects as $project)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $client->mobile}}</td>
-                <td>{{ $client->getNameAttribute() }}</td>
-                <td>{{ $client->s_number }}</td>
-                <td>{{ $client->city }}</td>
+                <td>{{ $project->client->name }}</td>
+                <td>{{ $project->name }}</td>
+                <td>{{ mb_substr($project->description, 0, 20) . '...' ?? $project->description}}</td>
+                <td>{{ $project->s_number }}</td>
+                <td>{{ explode(' ', $project->start_date)[0] ?? $project->start_date }}</td>
                 <td>
-                    <a href="{{route('admin-clients-show', $client->id)}}" class="btn btn-sm py-0 btn-outline-success"><i class="fa fa-eye"></i> &nbsp;{{__('clients.show')}}</a>
-                    <a href="{{route('admin-clients-edit', $client->id)}}" class="btn btn-sm py-0 btn-outline-primary"><i class="fa fa-edit"></i> &nbsp;{{__('clients.edit')}}</a>
-                    <form action="{{route('admin-clients-destroy', $client->id)}}" method="POST" style="display:inline;">
+                    <a href="{{route('admin-projects-show', $project->id)}}" class="btn btn-sm py-0 btn-outline-success"><i class="fa fa-eye"></i> </a>
+                    <a href="{{route('admin-projects-edit', $project->id)}}" class="btn btn-sm py-0 btn-outline-primary"><i class="fa fa-edit"></i></a>
+                    <form action="{{route('admin-projects-destroy', $project->id)}}"
+                        onsubmit="return confirm('{{__('projects.delete_confirm')}}')"
+                        method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm py-0 btn-outline-danger"><i class="fa fa-trash"></i> &nbsp;{{__('clients.delete')}}</button>
+                        <button type="submit" class="btn btn-sm py-0 btn-outline-danger"><i class="fa fa-trash"></i></button>
                     </form>
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="text-center">{{__('clients.no_clients_yet')}}</td>
+                <td colspan="5" class="text-center">{{__('projects.no_projects_yet')}}</td>
             </tr>
             @endforelse
         </tbody>
@@ -49,12 +53,12 @@
 
 <div id="modals">
    
-    <div class="modal fade m-auto" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
+    <div class="modal fade m-auto" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" style="width: 700px;">
-                <form action="{{ route('admin-clients-store') }}" method="POST">
+                <form action="{{ route('admin-projects-store') }}" method="POST">
                     <div class="modal-header py-3 bg-light px-4 d-flex">
-                        <h1 class="fs-5 me-auto" style="flex:auto" id="addClientModalLabel">{{__('clients.create_form_modal_title')}}</h1>
+                        <h1 class="fs-5 me-auto" style="flex:auto" id="addProjectModalLabel">{{__('projects.create_form_modal_title')}}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

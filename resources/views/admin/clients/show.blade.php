@@ -105,6 +105,7 @@
             <fieldset class="border rounded">
                 <legend class="w-auto py-2 rounded">المشاريع &nbsp;
                 <a href="{{ route('admin-projects-create', $client->id) }}"><i class="fa fa-plus text-primary"></i></a>
+                <a href="{{ route('admin-projects-index', $client->id) }}"><i class="fa fa-list text-primary"></i></a>
                 </legend>
                 <div class="row">
 
@@ -116,7 +117,9 @@
                                 <p class="fw-bold fs-6">{{ strtoupper(substr($project->status, 0, 4)) }}</p>
                             </div>
                             <div class="col-9 p-1">
-                                <b>{{ $project->s_number }}</b><br>
+                                <a href="{{route('admin-projects-show', $project->id)}}">
+                                    <b>{{ $project->s_number }}</b><br>
+                                </a>
                                 <b>تاريخ البدء: {{ $project->start_date }}</b><br>
                                 <b>تاريخ الانتهاء: {{ $project->end_date }}</b><br>
                                 <b>الحالة: {{ $project->status }}</b>

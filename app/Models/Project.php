@@ -33,17 +33,13 @@ class Project extends Model
         $prefix = 'PJT';
         $year = date('y');
         $month = date('m');
-        $lastClient = self::whereYear('created_at', $year)
-            ->orderBy('id', 'desc')
-            ->first();
-
-        if ($lastClient) {
-            $lastNumber = intval(substr($lastClient->s_number, -6));
+        $lastProject = Project::orderBy('id', 'desc')->first();
+        if ($lastProject) {
+            $lastNumber = intval(substr($lastProject->s_number, -6));
             $newNumber = str_pad($lastNumber + 1, 6, '0', STR_PAD_LEFT);
         } else {
             $newNumber = '000001';
         }
-
         return $prefix . $year . $month . $newNumber;
     }
 
@@ -55,6 +51,8 @@ class Project extends Model
         'start_date',
         'end_date'
     ];
+
+    public static $statuses = [ 'held','tender','ongoing','finished', 'pending', ];
 
     // العلاقة مع نموذج Client
     public function client()

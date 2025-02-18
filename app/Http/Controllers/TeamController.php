@@ -88,7 +88,14 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        //
+        $team->load([
+            'members',
+            'projects'
+        ]);
+
+        $leader = User::find($team->leader_id);
+        
+        return view('admin.teams.show', compact('team', 'leader'));
     }
 
     /**
@@ -97,6 +104,9 @@ class TeamController extends Controller
     public function edit(Team $team)
     {
         //
+        $team_code = Team::generateTeamCode();
+        $members = User::all();
+        return view('admin.teams.edit', compact('team', 'members', 'team_code'));
     }
 
     /**
@@ -105,6 +115,11 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         //
+        $validated = $request->validate([
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'brief' => 'required|string|max:255',
+        ]);
     }
 
     /**
@@ -113,6 +128,16 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         //
+
+        try {
+            $team->delete();
+            return redirect()->route('admin-teams-index')
+                ->with('success', __('teams.deleted_successfully'));
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', __('teams.deletion_failed') . ': ' . $e->getMessage());
+        }
     }
 
     /**
@@ -136,6 +161,32 @@ class TeamController extends Controller
             return redirect()->back()->with('success', __('teams.team_member_added_successfully'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('teams.team_member_added_fail' . ': ' . $e->getMessage()));
+        }
+    }
+
+    /**
+     * تحديث حالة الفريق
+     */
+    public function updateStatus(Request $request, Team $team)
+    {
+        $validated = $request->validate([
+            'is_active' => 'required|boolean'
+        ]);
+
+        try {
+            $team->update([
+                'is_active' => $validated['is_active']
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => __('teams.status_updated_successfully')
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => __('teams.status_update_failed')
+            ], 500);
         }
     }
 }

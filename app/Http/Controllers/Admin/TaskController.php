@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 use App\Models\Task;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,10 +17,13 @@ class TaskController extends Controller
         return view('admin.tasks.index', compact('tasks'));
     }
 
-    public function create()
+    public function create($project_id)
     {
+        $project = Project::findOrFail($project_id);
+        $projects = Project::all();
+        $teams = Team::all();
         $users = User::all();
-        return view('admin.tasks.create', compact('users'));
+        return view('admin.tasks.create', compact('project', 'projects', 'teams', 'users'));
     }
 
     public function store(Request $request)

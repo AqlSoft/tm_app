@@ -15,6 +15,11 @@ class ProjectController extends Controller
     public function index()
     {
         //
+        $projects = Project::paginate(10);
+        $clients = Client::all();
+        $types = Client::$types;
+        $s_number = Project::generateSerialNumber();
+        return view('admin.projects.index', compact('projects', 'clients', 'types', 's_number'));
     }
 
     /**
@@ -23,7 +28,8 @@ class ProjectController extends Controller
     public function create()
     {
         $clients = Client::all();
-        return view('admin.projects.create', compact('clients'));
+        $s_number = Project::generateSerialNumber();
+        return view('admin.projects.create', compact('clients', 's_number'));
     }
 
     /**
@@ -33,14 +39,14 @@ class ProjectController extends Controller
     {
         $validated = $request->validate([
             'client_id' => 'required|exists:clients,id',
-            'name_ar' => 'required|string|max:255',
-            'name_en' => 'required|string|max:255',
+            'name_ar' => 'required|string|max:255|unique:projects,name_ar',
+            'name_en' => 'required|string|max:255|unique:projects,name_en',
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'status' => 'required|in:ongoing,completed,pending',
-            's_number' => 'nullable|string|max:255',
+            'end_date' => 'nullable|date',
+            'status' => 'nullable|in:tender,ongoing,finished,held,pending',
+            's_number' => 'nullable|string|max:255|unique:projects,s_number',
         ]);
 
         $validated['created_by'] = auth()->user()->id;
@@ -61,6 +67,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         //
+        return view('admin.projects.show', compact('project'));
     }
 
     /**
@@ -69,6 +76,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         //
+        $statuses = Project::$statuses;
+        return view('admin.projects.edit', compact('project', 'statuses'));
     }
 
     /**
@@ -77,6 +86,24 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         //
+        $validated = $request->validate([
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'description_ar' => 'nullable|string',
+            'description_en' => 'nullable|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+        ]);
+
+        $validated['updated_by'] = auth()->user()->id;
+
+        try {
+            $project->fill($validated);
+            $project->update();
+            return Redirect::back()->with('success', __('project.updated_successfully'));
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', __('project.update_failed' . ': ' . $e->getMessage()));
+        }
     }
 
     /**

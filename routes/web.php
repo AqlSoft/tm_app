@@ -118,6 +118,16 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::delete('{note}', [NoteController::class, 'destroy'])->name('destroy');
     });
 
+    Route::prefix('tasks')->name('tasks-')->group(function () {
+        Route::get('/list', [TaskController::class, 'index'])->name('index');
+        Route::get('create/{project}', [TaskController::class, 'create'])->name('create');
+        Route::post('store', [TaskController::class, 'store'])->name('store');
+        Route::get('{task}', [TaskController::class, 'show'])->name('show');
+        Route::get('{task}/edit', [TaskController::class, 'edit'])->name('edit');
+        Route::put('{task}', [TaskController::class, 'update'])->name('update');
+        Route::delete('{task}', [TaskController::class, 'destroy'])->name('destroy');
+    });
+
     Route::prefix('teams')->name('teams-')->group(function () {
         Route::get('/list', [TeamController::class, 'index'])->name('index');
         Route::get('create', [TeamController::class, 'create'])->name('create');
