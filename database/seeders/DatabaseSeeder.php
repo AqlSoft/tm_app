@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
+use Database\Seeders\SettingsSeeder;
+use Database\Seeders\SettingsTableSeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            SettingsSeeder::class,
+            SettingsTableSeeder::class,
+        ]);
+
         // User::factory(10)->create();
 
         $admin_1 = User::factory()->create([

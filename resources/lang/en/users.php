@@ -1,5 +1,13 @@
 <?php
 return [
+
+    // Headings
+    'edit_user_title' => 'Edit User',
+    'users_list' => 'Users List',
+    'users_count' => 'Users Count',
+    'show_users' => 'Show Users',
+    'create_user' => 'Create User',
+
     // Tables Heads
     'id' => 'ID',
     'name' => 'Name',

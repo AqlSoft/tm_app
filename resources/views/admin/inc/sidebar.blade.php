@@ -176,6 +176,13 @@
                                 <span>{{ __('dashboard.permissions') }}</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('admin-settings-index')}}" 
+                                class="nav-link {{ Request::is('admin/users/settings*') ? 'active' : '' }}">
+                                <i class="fas fa-user-cogs"></i>
+                                <span>{{ __('users.settings') }}</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -184,7 +191,7 @@
             <li class="pe-3 mt-auto">
                 <a href="{{ route('locale', app()->getLocale() == 'ar' ? ['en'] : ['ar']) }}" 
                     class="{{ app()->getLocale() == 'ar' ? 'active' : '' }}"> <i class="fa fa-language"></i>
-                    {{ app()->getLocale() == 'ar' ? __('dashboard.arabic') : __('dashboard.english') }}
+                    {{ app()->getLocale() == 'ar' ? __('dashboard.english') : __('dashboard.arabic') }}
                 </a>
             </li>
         </ul>

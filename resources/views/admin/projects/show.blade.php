@@ -41,15 +41,23 @@
         <div class="col-md-12">
             <fieldset class="border p-3 rounded">
                 <legend class="w-auto py-2 rounded"> المهام &nbsp; 
-                    <a href="{{ route('admin-tasks-create', [$project->id]) }}"> <i class="fa fa-plus text-primary"></i></a>
+                    <a href="{{ route('admin-operations-create', [$project->id]) }}"> <i class="fa fa-plus text-primary"></i></a>
                 </legend>
-                <div class="p-3 ">
-                    <h5>اسم العميل: {{ $project->client->name }}</h5>
-                    <h5>الرقم المسلسل: {{ $project->client->s_number }}</h5>
-                    <small>رقم الهاتف: {{ $project->client->phone }}</small><br>
-                    <small>البريد الالكتروني: {{ $project->client->email }}</small><br>
-                    <small>المدينة: {{ $project->client->city }}</small><br>
-                    <small>العنوان: {{ $project->client->address }}</small>
+                <div class="row mt-3">
+                    @forelse ($project->operations as $operation)
+                    <div class="col col-md-6">
+                        <h5>اسم العميل: {{ $project->client->name }}</h5>
+                        <h5>الرقم المسلسل: {{ $project->client->s_number }}</h5>
+                        <small>رقم الهاتف: {{ $project->client->phone }}</small><br>
+                        <small>البريد الالكتروني: {{ $project->client->email }}</small><br>
+                        <small>المدينة: {{ $project->client->city }}</small><br>
+                        <small>العنوان: {{ $project->client->address }}</small>
+                    </div>
+                    @empty
+                        <div class="col col-12 mt-2">
+                            No Operations has been assigned yet
+                        </div>
+                    @endforelse
                 </div>
             </fieldset>
         </div>

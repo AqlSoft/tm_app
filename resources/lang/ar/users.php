@@ -8,9 +8,11 @@ return [
     'actions' => 'العمليات',
 
     // Headings
-    'users_list_heading' => 'قائمة المستخدمين',
-    'create_form_modal_title' => 'إضافة مستخدم جديد',
     'edit_user_title' => 'تعديل بيانات المستخدم',
+    'users_list_title' => 'قائمة المستخدمين',
+    'create_form_modal_title' => 'إضافة مستخدم جديد',
+    'show_users_title' => 'عرض المستخدمين',
+    'create_user_title' => 'إضافة مستخدم جديد',
 
     // Labels & Buttons
     'password' => 'كلمة المرور',

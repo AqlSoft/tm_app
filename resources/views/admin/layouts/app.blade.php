@@ -2,10 +2,15 @@
 <html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ __('home.dashboard') }}</title>
-    <!-- Bootstrap RTL -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    @if(app()->getLocale() == 'ar')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    @else
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    @endif
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -14,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/sidebar.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/my-custom-styles.css') }}">
-    <link href="{{ asset('assets/admin/css/admin-layout.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/admin-layout.css') }}">
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
@@ -29,15 +34,24 @@
 </head>
 <body class="bg-gray-100">
     <!-- Mobile Toggle Button -->
-    <button onclick="toggleSidebar()" 
+    {{-- <button onclick="toggleSidebar()" 
         class="fixed top-4 z-50 p-2 bg-gray-800 text-white rounded-lg shadow-lg sm:hidden" 
         style="{{ app()->getLocale() == 'ar' ? 'right: 1rem' : 'left: 1rem' }}">
         <i class="fas fa-bars"></i>
-    </button>
+    </button> --}}
 
     @include('admin.inc.sidebar')
-    
-    <div class="main-content min-h-screen p-4">
+    <div class="main-content min-h-screen position-relative">
+        {{-- روابط الخلفية --}}
+        <div class="top-header mb-5" >
+            <nav aria-label="breadcrumb">
+                <div class="breadcrumb list-unstyled">
+                    <div class="breadcrumb-item"><a href="{{route('admin-dashboard')}}">{{__('dashboard.dashboard')}}</a></div>
+                    @yield('header-breadcrumb')
+                </div>
+            </nav>
+        </div>
+        
         <div class="max-w-7xl mx-auto">
             @yield('content')
         </div>

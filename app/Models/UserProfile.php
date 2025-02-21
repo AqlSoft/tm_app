@@ -16,6 +16,7 @@ class UserProfile extends Model
         'last_name',
         'gender',
         'job_title',
+        'image',
     ];
 
     public function user()

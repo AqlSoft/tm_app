@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\OperationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProjectController;
@@ -44,7 +46,12 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::post('store', [UserController::class, 'store'])->name('users-store');
         Route::get('{user}', [UserController::class, 'show'])->name('users-show');
         Route::get('{user}/edit', [UserController::class, 'edit'])->name('users-edit');
-        Route::put('{user}', [UserController::class, 'update'])->name('users-update');
+        Route::put('{user}/profile/update', [UserController::class, 'updateProfile'])->name('users-profile-update');
+        Route::put('/update/account/info/{user}', [UserController::class, 'updateAccountInfo'])->name('users-update-account-info');
+        Route::put('/{user}/change/password', [UserController::class, 'changePassword'])->name('users-change-password');
+        Route::put('/{user}/change/profile/image', [UserController::class, 'changeProfileImage'])->name('users-change-profile-image');
+        Route::post('/save/job/title/', [UserController::class, 'saveJobTitle'])->name('users-add-job-title');
+        Route::post('/update/job/title/', [UserController::class, 'updateJobTitle'])->name('users-update-job-title');
         Route::delete('{user}', [UserController::class, 'destroy'])->name('users-destroy');
     });
     
@@ -66,6 +73,19 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::get('{permission}/edit', [PermissionController::class, 'edit'])->name('edit');
         Route::put('update/{permission}', [PermissionController::class, 'update'])->name('update');
         Route::delete('{permission}', [PermissionController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('settings')->name('settings-')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name('index');
+        Route::get('/create', [SettingController::class, 'create'])->name('create');
+        Route::post('/store', [SettingController::class, 'store'])->name('store');
+        Route::get('/{setting}/edit', [SettingController::class, 'edit'])->name('edit');
+        Route::put('/{setting}', [SettingController::class, 'update'])->name('update');
+        Route::delete('/{setting}', [SettingController::class, 'destroy'])->name('destroy');
+        Route::get('/group/{group}', [SettingController::class, 'group'])->name('group');
+        Route::get('/group/{group}/edit', [SettingController::class, 'editGroup'])->name('edit-group');
+        Route::put('/group/{group}', [SettingController::class, 'updateGroup'])->name('update-group');
+        Route::delete('/group/{group}', [SettingController::class, 'destroyGroup'])->name('destroy-group');
     });
 
     Route::prefix('clients')->name('clients-')->group(function () {
@@ -128,6 +148,16 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::delete('{task}', [TaskController::class, 'destroy'])->name('destroy');
     });
 
+    Route::prefix('operations')->name('operations-')->group(function () {
+        Route::get('/list', [OperationController::class, 'index'])->name('index');
+        Route::get('create/{project}', [OperationController::class, 'create'])->name('create');
+        Route::post('store', [OperationController::class, 'store'])->name('store');
+        Route::get('{operation}', [OperationController::class, 'show'])->name('show');
+        Route::get('{operation}/edit', [OperationController::class, 'edit'])->name('edit');
+        Route::put('{operation}', [OperationController::class, 'update'])->name('update');
+        Route::delete('{operation}', [OperationController::class, 'destroy'])->name('destroy');
+    });
+
     Route::prefix('teams')->name('teams-')->group(function () {
         Route::get('/list', [TeamController::class, 'index'])->name('index');
         Route::get('create', [TeamController::class, 'create'])->name('create');
@@ -140,6 +170,5 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::post('add/member', [TeamController::class, 'add_member'])->name('add-member');
         
     });
-
     
 });

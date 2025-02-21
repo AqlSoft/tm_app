@@ -75,4 +75,7 @@ class Project extends Model
     {
         return session('locale') == 'ar' ? $this->description_ar : $this->description_en;
     }
+    public function operations () {
+        return $this->hasMany(Operation::class);
+    }
 }
