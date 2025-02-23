@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\File;
+
 use Illuminate\Http\Request;
 
 use App\Models\UserProfile;
+use App\Models\ApplicationJob;
 use App\Models\Jobtitle;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Setting;
 
 class UserController extends Controller
 {
@@ -181,5 +186,123 @@ class UserController extends Controller
             return Redirect::back()->with('error', __('users.delete_failed') . ': ' . $e->getMessage());
         }
 
+    }
+
+    public function settings()
+    {
+        $jobTitles = ApplicationJob::all(); // إضافة ترقيم الصفحات
+        $roles = Role::all();
+        $settings = Setting::whereIn('key', ['allow_registration', 'default_role'])->pluck('value', 'key')->toArray();
+
+        return view('admin.users.settings', compact('jobTitles', 'roles', 'settings'));
+    }
+
+    public function addJobTitle(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string'
+        ]);
+
+        try {
+            $jobTitle = ApplicationJob::create([
+                'title' => $request->title,
+                'description' => $request->description
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => __('users.job_title_added'),
+                'data' => $jobTitle
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => __('users.error_adding_job_title')
+            ], 500);
+        }
+    }
+
+    public function updateJobTitle(Request $request, $id)
+    {
+        $jobTitle = ApplicationJob::findOrFail($id);
+        
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string'
+        ]);
+
+        try {
+            $jobTitle->update([
+                'title' => $request->title,
+                'description' => $request->description
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => __('users.job_title_updated'),
+                'data' => $jobTitle
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => __('users.error_updating_job_title')
+            ], 500);
+        }
+    }
+
+    public function deleteJobTitle($id)
+    {
+        $jobTitle = ApplicationJob::findOrFail($id);
+        
+        // التحقق من عدم وجود مستخدمين مرتبطين بهذا المسمى
+        if ($jobTitle->users()->count() > 0) {
+            return redirect()->back()->with('error', __('users.cannot_delete_job_title_in_use'));
+        }
+
+        try {
+            $jobTitle->delete();
+            return redirect()->back()->with('success', __('users.job_title_deleted'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('users.error_deleting_job_title'));
+        }
+    }
+
+    public function createJobTitle(Request $request) {
+        $validated = $request->validate([
+            'name_ar' => 'required|string|max:50',
+            'name_en' => 'required|string|max:50',
+            'description_ar' => 'required|string',
+            'description_en' => 'required|string'
+        ]);
+        $validated['updated_by'] = auth()->id();
+        $validated['created_by'] = auth()->id();
+
+        try {
+            ApplicationJob::create($validated);
+            return redirect()->back()->with('success', __('users.job_title_added'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('users.error_adding_job_title' . ': ' . $e->getMessage()));
+        }
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $request->validate([
+            'default_role' => 'required|exists:roles,id',
+            'allow_registration' => 'boolean'
+        ]);
+
+        Setting::updateOrCreate(
+            ['key' => 'default_role'],
+            ['value' => $request->default_role]
+        );
+
+        Setting::updateOrCreate(
+            ['key' => 'allow_registration'],
+            ['value' => $request->has('allow_registration') ? '1' : '0']
+        );
+
+        return redirect()->back()->with('success', __('users.settings_updated'));
     }
 }

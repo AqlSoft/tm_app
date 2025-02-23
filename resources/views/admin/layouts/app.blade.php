@@ -78,7 +78,7 @@
             "preventDuplicates": false,
             "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "5000",
+            "timeOut": "30000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -105,6 +105,73 @@
         @endif
     </script>
     <script>
+        // Toggle Sidebar on Mobile
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleButton = document.querySelector('button[onclick="toggleSidebar()"]');
+            
+            if (window.innerWidth <= 640 && 
+                sidebar.classList.contains('open') && 
+                !sidebar.contains(event.target) && 
+                event.target !== toggleButton) {
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
+       
+    <script>
+
+        // إعدادات التوستر
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            /*"positionClass": "toast-top-left",
+            "preventDuplicates": false,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",*/
+            "rtl": true
+        };
+
+        // عرض رسائل النجاح
+        @if(Session::has('success'))
+            toastr.success("{{ Session::get('success') }}", "{{ __('general.success') }}");
+        @endif
+
+        // عرض رسائل الخطأ
+        @if(Session::has('error'))
+            toastr.error("{{ Session::get('error') }}", "{{ __('general.error') }}");
+        @endif
+
+        // عرض رسائل التحذير
+        @if(Session::has('warning'))
+            toastr.warning("{{ Session::get('warning') }}", "{{ __('general.warning') }}");
+        @endif
+
+        // عرض رسائل المعلومات
+        @if(Session::has('info'))
+            toastr.info("{{ Session::get('info') }}", "{{ __('general.info') }}");
+        @endif
+
+        // عرض أخطاء التحقق
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                toastr.error("{{ $error }}", "{{ __('general.validation_error') }}");
+            @endforeach
+        @endif
+
         // Toggle Sidebar on Mobile
         function toggleSidebar() {
             document.querySelector('.sidebar').classList.toggle('open');

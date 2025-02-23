@@ -40,20 +40,27 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         return view('admin.dashboard.home');
     })->name('dashboard');
 
-    Route::prefix('users')->group(function () {
-        Route::get('/list', [UserController::class, 'index'])->name('users-index');
-        Route::get('create', [UserController::class, 'create'])->name('users-create');
-        Route::post('store', [UserController::class, 'store'])->name('users-store');
-        Route::get('{user}', [UserController::class, 'show'])->name('users-show');
-        Route::get('{user}/edit', [UserController::class, 'edit'])->name('users-edit');
-        Route::put('{user}/profile/update', [UserController::class, 'updateProfile'])->name('users-profile-update');
-        Route::put('/update/account/info/{user}', [UserController::class, 'updateAccountInfo'])->name('users-update-account-info');
-        Route::put('/{user}/change/password', [UserController::class, 'changePassword'])->name('users-change-password');
-        Route::put('/{user}/change/profile/image', [UserController::class, 'changeProfileImage'])->name('users-change-profile-image');
-        Route::post('/save/job/title/', [UserController::class, 'saveJobTitle'])->name('users-add-job-title');
-        Route::post('/update/job/title/', [UserController::class, 'updateJobTitle'])->name('users-update-job-title');
-        Route::delete('{user}', [UserController::class, 'destroy'])->name('users-destroy');
+    Route::prefix('users')->name('users-')->group(function () {
+        Route::get('/list', [UserController::class, 'index'])->name('index');
+        Route::get('create', [UserController::class, 'create'])->name('create');
+        Route::post('store', [UserController::class, 'store'])->name('store');
+        Route::get('{user}/show', [UserController::class, 'show'])->name('show');
+        Route::get('{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('{user}/profile/update', [UserController::class, 'updateProfile'])->name('profile-update');
+        Route::put('/update/account/info/{user}', [UserController::class, 'updateAccountInfo'])->name('update-account-info');
+        Route::put('/{user}/change/password', [UserController::class, 'changePassword'])->name('change-password');
+        Route::put('/{user}/change/profile/image', [UserController::class, 'changeProfileImage'])->name('change-profile-image');
+        Route::post('/save/job/title/', [UserController::class, 'saveJobTitle'])->name('add-job-title');
+        Route::post('/update/job/title/', [UserController::class, 'updateJobTitle'])->name('update-job-title');
+        Route::delete('{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
+        //Route::get('/settings', [UserController::class, 'settings'])->name('settings');
+        
+        
+        Route::post('/users/settings/create/job-title', [UserController::class, 'createJobTitle'])->name('create-job-title');
+        Route::put('/users/settings/update/job-title', [UserController::class, 'updateJobTitle'])->name('update-job-title');
+        Route::delete('/users/settings/delete/job-title', [UserController::class, 'deleteJobTitle'])->name('delete-job-title');
     });
+    Route::get('/users/settings', [UserController::class, 'settings'])->name('users-settings');
     
     Route::prefix('roles')->name('roles-')->group(function () {
         Route::get('/list', [RoleController::class, 'index'])->name('index');
@@ -75,8 +82,8 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::delete('{permission}', [PermissionController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix('settings')->name('settings-')->group(function () {
-        Route::get('/', [SettingController::class, 'index'])->name('index');
+    Route::prefix('dashboard/settings')->name('dashboard-settings-')->group(function () {
+        Route::get('/home', [SettingController::class, 'index'])->name('index');
         Route::get('/create', [SettingController::class, 'create'])->name('create');
         Route::post('/store', [SettingController::class, 'store'])->name('store');
         Route::get('/{setting}/edit', [SettingController::class, 'edit'])->name('edit');
@@ -166,7 +173,7 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::get('{team}/edit', [TeamController::class, 'edit'])->name('edit');
         Route::put('{team}', [TeamController::class, 'update'])->name('update');
         Route::delete('{team}', [TeamController::class, 'destroy'])->name('destroy');
-        
+       
         Route::post('add/member', [TeamController::class, 'add_member'])->name('add-member');
         
     });

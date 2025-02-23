@@ -13,6 +13,11 @@ return [
     // languages
     'arabic' => 'العربية',
     'english' => 'English',
+
+    //sidebar
+    'users' => 'المستخدمين',
+    'users_list' => 'عرض الكل',
+
     // main
     'roles_list' => 'قائمة الأدوار',
     'add_new_role' => 'إضافة دور جديد',
@@ -37,12 +42,15 @@ return [
     'orders' => 'الطلبات',
     'suppliers' => 'الموردين',
     'users' => 'المستخدمين',
-    'users_list' => 'قائمة المستخدمين',
     'roles' => 'الأدوار',
     'permissions' => 'الصلاحيات',
     'clients' => 'العملاء',
+    'dashboard_home' => 'الرئيسية',
     'clients_list' => 'قائمة العملاء',
     'contacts' => 'جهات الاتصال',
     'contacts_list' => 'جهات الاتصالات',
     'clients_categories'=>'تصنيفات العملاء',
+    'dashboard_settings' => 'التكوين',
+    'users_settings' => 'التكوين',
+
  ];

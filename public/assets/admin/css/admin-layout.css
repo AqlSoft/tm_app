@@ -44,17 +44,17 @@ h6 {
 /* RTL Support */
 [dir="rtl"] .ltr\:ml-64 {
     margin-left: 0;
-    margin-right: 12rem;
+    margin-right: 200px;
 }
 
 [dir="rtl"] .ltr\:mr-64 {
     margin-right: 0;
-    margin-left: 12rem;
+    margin-left: 200px;
 }
 
 /* Sidebar */
 .sidebar {
-    width: 12rem;
+    width: 200px;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -249,8 +249,31 @@ button.nav-link[aria-expanded="true"]::after {
 }
 .nav-link.active {
     font-weight: bold;
+    margin-bottom: 0;
     background-color: #007bff; /* لون الخلفية عند التحديد */
     color: white; /* لون النص عند التحديد */
+}
+button.nav-link.active + .collapse {
+    margin-top: 0;
+    padding-top: 0;
+    border-radius: 0;
+}
+
+button.nav-link.active + .collapse ul {
+    margin-top: 0;
+    padding-inline-start: 0.5rem;
+    background-color: #2b58889d; /* لون الخلفية عند التحديد */
+    border-radius: 0;
+}
+button.nav-link.active + .collapse ul .nav-link.active {
+    background-color: #fffffff5; /* لون الخلفية عند التحديد */
+    color: #0866ff !important; /* لون النص عند التحديد */
+    border: 0;
+    border-radius: 0;
+    transform: translateX(2px);
+}
+[dir="rtl"] button.nav-link.active + .collapse ul .nav-link.active {
+    transform: translateX(-2px);
 }
 
 .admin-wrapper {
@@ -474,4 +497,67 @@ button.nav-link[aria-expanded="true"]::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+/* تنسيق الترقيم */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 20px 0;
+}
+
+.pagination .page-item {
+    margin: 0 2px;
+}
+
+.pagination .page-link {
+    padding: 8px 16px;
+    color: #666;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: #f8f9fa;
+    color: #333;
+    border-color: #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+/* تنسيق الأسهم */
+.pagination .page-link[rel="prev"],
+.pagination .page-link[rel="next"] {
+    font-size: 18px;
+    line-height: 1;
+    padding: 7px 14px;
+}
+
+/* RTL تعديلات */
+[dir="rtl"] .pagination {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .pagination .page-link[rel="prev"] {
+    transform: rotate(180deg);
+}
+
+[dir="rtl"] .pagination .page-link[rel="next"] {
+    transform: rotate(180deg);
 }

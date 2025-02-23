@@ -6,6 +6,7 @@ return [
     'email' => 'البريد الالكتروني',
     'roles' => 'الأدوار',
     'actions' => 'العمليات',
+    'add_new_job_title' => 'إضافة مسمى وظيفي جديد',
 
     // Headings
     'edit_user_title' => 'تعديل بيانات المستخدم',
@@ -13,6 +14,7 @@ return [
     'create_form_modal_title' => 'إضافة مستخدم جديد',
     'show_users_title' => 'عرض المستخدمين',
     'create_user_title' => 'إضافة مستخدم جديد',
+    'settings' => 'إعدادات المستخدمين',
 
     // Labels & Buttons
     'password' => 'كلمة المرور',
@@ -35,6 +37,30 @@ return [
     'actions' => 'العمليات',
     'select' => 'أختر',
     'basic_info' =>'المعلومات الأساسية',
+    'job_titles' => 'المسميات الوظيفية',
+    'add_job_title' => 'إضافة مسمى وظيفي',
+    'edit_job_title' => 'تعديل المسمى الوظيفي',
+    'title' => 'المسمى',
+    'description' => 'الوصف',
+    'job_title_name_ar' => 'الاسم بالعربية',
+    'job_title_name_en' => 'الاسم بالانجليزية',
+    'job_title_description_ar' => 'الوصف بالعربية',
+    'job_title_description_en' => 'الوصف  بالانجليزية',
+    'name_ar_placeholder' => 'ادخل المسمى الوظيفى بالعربية',
+    'name_en_placeholder' => 'ادخل المسمى الوظيفى بالانجليزية',
+    'description_ar_placeholder' => 'ادخل وصف المسمى الوظيفى بالعربية',
+    'description_en_placeholder' => 'ادخل وصف المسمى الوظيفى بالانجليزية',
+    'other_settings' => 'إعدادات أخرى',
+    'default_role' => 'الدور الافتراضي',
+    'allow_registration' => 'السماح بالتسجيل الذاتي',
+    'no_job_titles' => 'لا توجد مسميات وظيفية',
+    'enter_title' => 'أدخل المسمى الوظيفي',
+    'enter_description' => 'أدخل وصف الوظيفة',
+    'title_required' => 'المسمى الوظيفي مطلوب',
+    'error_adding_job_title' => 'حدث خطأ أثناء إضافة المسمى الوظيفي',
+    'error_updating_job_title' => 'حدث خطأ أثناء تحديث المسمى الوظيفي',
+    'error_deleting_job_title' => 'حدث خطأ أثناء حذف المسمى الوظيفي',
+    'cannot_delete_job_title_in_use' => 'لا يمكن حذف المسمى الوظيفي لأنه مستخدم من قبل بعض المستخدمين',
     
     // Job Titles
     'general_manager' => 'مدير عام',
@@ -51,4 +77,9 @@ return [
     'deleted_successfully' => 'تم حذف المستخدم بنجاح',
     'delete_failed' => 'فشل حذف المستخدم',
     'cannot_delete_own_account' => 'لا يمكن حذف حسابك',
+    'job_title_added' => 'تم اضافة المسمى الوظيفي بنجاح',
+    'job_title_updated' => 'تم تحديث المسمى الوظيفي بنجاح',
+    'job_title_deleted' => 'تم حذف المسمى الوظيفي بنجاح',
+    'job_title_delete_failed' => 'فشل حذف المسمى الوظيفي',
+    'job_title_cannot_delete_in_use' => 'لا يمكن حذف المسمى الوظيفي لأنه مستخدم من قبل بعض المستخدمين',
 ];

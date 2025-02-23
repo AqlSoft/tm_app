@@ -13,7 +13,7 @@
                 <th>{{__('users.id')}}</th>
                 <th>{{__('users.name')}}</th>
                 <th>{{__('users.email')}}</th>
-                <th>{{__('users.roles')}}</th>
+                <th>{{__('users.job_title')}}</th>
                 <th>{{__('users.actions')}}</th>
             </tr>
         </thead>
@@ -23,7 +23,7 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->roles->pluck('name')->implode(', ') }}</td>
+                <td>{{ $user->position }}</td>
                 <td>
                     <a href="{{ route('admin-users-edit', $user->id) }}" class="btn btn-sm py-0 btn-outline-primary"> <i class="fa fa-pencil"></i>  {{__('users.edit')}}</a>
                     <form action="{{ route('admin-users-destroy', $user->id) }}" method="POST" style="display:inline;">

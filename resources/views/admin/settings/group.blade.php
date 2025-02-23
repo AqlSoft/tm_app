@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('header-breadcrumb')
-<div class="breadcrumb-item"><a href="{{ route('admin-settings-index') }}">{{ __('settings.settings_list_title') }}</a></div>
+<div class="breadcrumb-item"><a href="{{ route('admin-dashboard-settings-index') }}">{{ __('settings.settings_list_title') }}</a></div>
 <div class="breadcrumb-item active">{{ __("settings.groups.$group") }}</div>
 @endsection
 
@@ -11,7 +11,7 @@
         
         <legend class="rounded">
             {{ __('settings.settings_list_title') }} &nbsp; 
-            <a href="{{ route('admin-settings-create') }}" class="btn py-0 text-primary">
+            <a href="{{ route('admin-dashboard-settings-create') }}" class="btn py-0 text-primary">
                 <i class="fas fa-plus"></i> {{ __('settings.create_new') }}
             </a>
         </legend>
@@ -23,7 +23,7 @@
                 $groups = \App\Models\Setting::select('group')->distinct()->pluck('group');
             @endphp
             @foreach($groups as $groupName)
-                <a href="{{ route('admin-settings-group', $groupName) }}" 
+                <a href="{{ route('admin-dashboard-settings-group', $groupName) }}" 
                     class="btn btn-sm btn-outline-primary {{ request()->segment(4) == $groupName ? 'active' : '' }}">
                     {{ __("settings.groups.$groupName") }}
                 </a>
@@ -72,12 +72,12 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('admin-settings-edit', $setting->id) }}" 
+                                <a href="{{ route('admin-dashboard-settings-edit', $setting->id) }}" 
                                     class="btn btn-sm btn-primary">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 
-                                <form action="{{ route('admin-settings-destroy', $setting->id) }}" 
+                                <form action="{{ route('admin-dashboard-settings-destroy', $setting->id) }}" 
                                         method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')

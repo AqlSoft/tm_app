@@ -28,7 +28,8 @@ legend {
 /* تخصيص موقع Toastr حسب اتجاه الصفحة */
 #toast-container.toast-bottom-left {
     bottom: 1rem !important;
-    left: 2rem !important;
+    left: 1rem !important;
+    padding: 1rem;
     right: auto;
 }
 

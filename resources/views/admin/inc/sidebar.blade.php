@@ -42,7 +42,7 @@
                 </button>
                 <div class="collapse {{ Request::is('admin/stores*') || Request::is('admin/items*') ? 'show' : '' }}" 
                     id="stores-collapse">
-                    <ul class="mt-1 space-y-0">
+                    <ul class="ps-3">
                         <li>
                             <a href="/admin/stores/home" 
                                 class="nav-link {{ Request::is('admin/stores/home') ? 'active' : '' }}">
@@ -84,7 +84,7 @@
                 </button>
                 <div class="collapse {{ Request::is('admin/purchases*') ? 'show' : '' }}" 
                     id="purchases-collapse">
-                    <ul class="mt-1 space-y-0">
+                    <ul class="sps-3">
                         <li>
                             <a href="/admin/purchases/orders" 
                                 class="nav-link {{ Request::is('admin/purchases/orders*') ? 'active' : '' }}">
@@ -112,7 +112,7 @@
                 </button>
                 <div class="collapse {{ Request::is('admin/clients*') ? 'show' : '' }}" 
                     id="clients-collapse">
-                    <ul class="mt-1 space-y-0">
+                    <ul class="ps-3">
                         <li>
                             <a href="/admin/clients/list" 
                                 class="nav-link {{ Request::is('admin/clients/list*') ? 'active' : '' }}">
@@ -147,7 +147,7 @@
                 </button>
                 <div class="collapse {{ Request::is('admin/users*') ? 'show' : '' }}" 
                     id="users-collapse">
-                    <ul class="mt-1 space-y-0">
+                    <ul class="ps-3">
                         <li>
                             <a href="/admin/users/list" 
                                 class="nav-link {{ Request::is('admin/users/list*') ? 'active' : '' }}">
@@ -158,31 +158,59 @@
                         <li>
                             <a href="{{route('admin-teams-index')}}" 
                                 class="nav-link {{ Request::is('admin/teams/*') ? 'active' : '' }}">
-                                <i class="fas fa-user-tag"></i>
+                                <i class="fas fa-user-group"></i>
                                 <span>{{ __('dashboard.teams_list') }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{route('admin-roles-index')}}" 
                                 class="nav-link {{ Request::is('admin/users/roles*') ? 'active' : '' }}">
-                                <i class="fas fa-user-tag"></i>
+                                <i class="fas fa-user-tie"></i>
                                 <span>{{ __('dashboard.roles') }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{route('admin-permissions-index')}}" 
                                 class="nav-link {{ Request::is('admin/users/permissions*') ? 'active' : '' }}">
-                                <i class="fas fa-user-tag"></i>
+                                <i class="fas fa-shield-alt"></i>
                                 <span>{{ __('dashboard.permissions') }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('admin-settings-index')}}" 
+                            <a href="{{route('admin-users-settings')}}" 
                                 class="nav-link {{ Request::is('admin/users/settings*') ? 'active' : '' }}">
-                                <i class="fas fa-user-cogs"></i>
-                                <span>{{ __('users.settings') }}</span>
+                                <i class="fas fa-user-cog"></i>
+                                <span>{{ __('dashboard.users_settings') }}</span>
                             </a>
                         </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- لوحة  التحكم -->
+            <li>
+                <button class="nav-link w-full {{ Request::is('admin/dashboard*') ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#dashboard-collapse">
+                    <i class="fas fa-users"></i>
+                    <span>{{ __('dashboard.dashboard') }}</span>
+                </button>
+                <div class="collapse {{ Request::is('admin/dashboard*') ? 'show' : '' }}" 
+                    id="dashboard-collapse">
+                    <ul class="space-y-0">
+                        <li>
+                            <a href="/admin/dashboard/" 
+                                class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                                <i class="fas fa-list"></i>
+                                <span>{{ __('dashboard.dashboard_home') }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin-dashboard-settings-index')}}" 
+                                class="nav-link {{ Request::is('admin/dashboard/settings*') ? 'active' : '' }}">
+                                <i class="fas fa-cogs"></i>
+                                <span>{{ __('dashboard.dashboard_settings') }}</span>
+                            </a>
+                        </li>
+                        
                     </ul>
                 </div>
             </li>
