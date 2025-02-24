@@ -24,8 +24,14 @@ legend {
     left: 13rem !important;
     right: auto;
 }
-
 /* تخصيص موقع Toastr حسب اتجاه الصفحة */
+#toast-container.toast-top-left {
+    top: 4rem !important; /* لاظهار التوست أسفل الهيدر ولا تختفى تحته*/
+    left: 1rem !important;
+    right: auto;
+    z-index: 9999;
+}
+
 #toast-container.toast-bottom-left {
     bottom: 1rem !important;
     left: 1rem !important;
@@ -46,8 +52,12 @@ legend {
 
 /* تعديل موضع الأيقونة حسب اتجاه اللغة */
 #toast-container > div {
-    padding: 0 50px 0 0 !important;
+    padding: 10px 50px 10px 15px !important;
     background-position: right 15px center !important;
+}
+
+#toast-container {
+    z-index: 9999;
 }
 
 /* Form Inputs Styles */

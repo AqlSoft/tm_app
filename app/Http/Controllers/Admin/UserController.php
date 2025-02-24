@@ -53,11 +53,19 @@ class UserController extends Controller
         }
     }
 
-    public function edit(User $user)
+    public function edit()
     {
         $roles = Role::all();
-        $jobTitles = Jobtitle::where('status', 1)->get();
+        $user = auth()->user();
+        $jobTitles = ApplicationJob::where('status', 1)->get();
         return view('admin.users.edit', compact('user', 'roles', 'jobTitles'));
+    }
+
+    public function editUsersProfile(User $user)
+    {
+        $roles = Role::all();
+        $jobTitles = ApplicationJob::where('status', 1)->get();
+        return view('admin.users.profiles.edit', compact('user', 'roles', 'jobTitles'));
     }
 
     public function saveJobTitle(Request $request)
@@ -89,6 +97,7 @@ class UserController extends Controller
             'job_title' => 'required|string',
         ]);
         $validated['updated_by'] = auth()->id();
+        //return $validated;
 
         $profile = UserProfile::find($user->id);
         try {

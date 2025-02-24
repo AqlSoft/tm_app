@@ -168,12 +168,17 @@
         <div class="col-md-12 mt-4">
             <fieldset class="border p-2">
                 <legend class="w-auto">الملاحظات</legend>
-                @foreach ($client->notes as $note)
+                @forelse ( [] as $note)
                 <div class="border p-2 mb-2">
                     <small>التاريخ: {{ @$note->note_date }}</small><br>
                     <p>{{ @$note->content }}</p>
                 </div>
-                @endforeach
+                @empty
+                <div class="border p-2 mb-2">
+                    
+                    <p>No notes found</p>
+                </div>
+                @endforelse
                 <a href="{{ route('admin-notes-create', $client->id) }}" class="btn btn-primary">إضافة ملاحظة جديدة</a>
             </fieldset>
         </div>

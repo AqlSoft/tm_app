@@ -47,6 +47,10 @@ return [
     'roles_list' => 'Roles List',
     'roles_count' => 'Roles Count',
     'show_roles' => 'Show Roles',
+    'clients' => 'Clients',
+    'clients_list' => 'Clients List',
+    'contacts_list' => 'Contacts List',
+    'clients_categories' => 'Clients Category',
 
     // New additions
     'stores' => 'Stores',

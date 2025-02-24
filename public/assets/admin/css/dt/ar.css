@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+}
+.dt-container {
+    width: 100%;
+    position: relative;
+    left: 0;
+    right: 0;
+}
+.dt-layout-row:first-child {
+    position: relative;
+    direction: rtl;
+    padding: 1rem 0;
+}
+.dt-layout-row:first-child .dt-layout-cell {
+    position: absolute;
+    padding: 0;
+}
+.dt-layout-row:first-child .dt-layout-cell.dt-layout-start {
+    left: 0;
+}
+.dt-layout-row:first-child .dt-layout-cell.dt-layout-table {
+    width: 100%;
+}
+.dt-layout-row:first-child .dt-layout-cell.dt-layout-end {
+    right: 0;
+}
+.dt-length {
+    display: flex;
+    gap: 0 !important;
+}
+.dt-length select {
+    margin: 0;
+    border: 1px solid #aaa;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    height: 2.5rem !important;
+    padding: 0.5rem !important;
+}
+label[for="dt-length-0"] {
+    margin: 0;
+    border-radius: 0.5rem 0 0 0.5rem !important;
+    border: 1px solid #aaa;
+    height: 2.5rem !important;
+    padding: 0.5rem !important;
+}
+
+.dt-search {
+    display: flex;
+    align-items: center;
+    gap: 0 !important;
+}
+
+.dt-search label {
+    margin-right: 0 !important;
+}
+
+.dt-search input {
+    margin: 0 !important;
+    border: 1px solid #aaa;
+    border-radius: 0.5rem 0 0 0.5rem !important;
+    height: 2.5rem !important;
+}
+label[for="dt-search-0"] {
+    margin: 0;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    border: 1px solid #aaa;
+    height: 2.5rem !important;
+    padding: 0.5rem !important;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.dataTables_wrapper .dataTables_length {
+    margin-top: 0;
+    margin-bottom: 0;
+}

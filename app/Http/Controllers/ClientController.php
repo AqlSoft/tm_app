@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Customer;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -16,11 +17,13 @@ class ClientController extends Controller
     public function index()
     {
         //
-        $clients = Client::paginate(10);
-        $types = Client::$types;
-        $s_number = Client::generateSerialNumber();
+        $clients = Customer::all();
+        $types = Customer::$types;
+        $s_number = Customer::generateSerialNumber();
         return view('admin.clients.index', compact('clients', 'types', 's_number'));
     }
+
+    /**
 
     /**
      * Show the form for creating a new resource.
@@ -82,6 +85,16 @@ class ClientController extends Controller
         $client->notes = [];
 
         $types = Client::$types;
+        return view('admin.clients.show', compact('client', 'types'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function display(Customer $client)
+    {
+        //
+        $types = Customer::$types;
         return view('admin.clients.show', compact('client', 'types'));
     }
 

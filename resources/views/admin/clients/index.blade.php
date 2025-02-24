@@ -1,50 +1,64 @@
 @extends('admin.layouts.app')
-
+@section('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
+@endsection
+@section('footer_scripts')
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+<script>
+    let table = new DataTable('#myTable');
+</script>
+@if(app()->getLocale() == 'ar')
+<script src="{{ asset('assets/admin/js/dt/ar.script.js') }}"></script>
+@else
+<script src="{{ asset('assets/admin/js/dt/en.script.js') }}"></script>
+@endif
+@endsection
 @section('content')
-
 <div class="container">
-    <div class="view-main-heading d-flex">
-        <h1 style="flex:auto">{{__('clients.clients_list_heading')}}</h1>
+    <fieldset class="view-main-heading d-flex">
+        <legend class="rounded">{{__('clients.clients_list_heading')}}
         <a href="{{route('admin-clients-create')}}" 
         data-bs-toggle="modal" data-bs-target="#addClientModal" 
-        class="btn mb-3 btn-sm btn-outline-primary"><i class="fa fa-plus"></i> {{__('clients.create')}}</a>
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>{{__('clients.mobile_number')}}</th>
-                <th>{{__('clients.name')}}</th>
-                <th>{{__('clients.s_number')}}</th>
-                <th>{{__('clients.city')}}</th>
-                <th>{{__('clients.actions')}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($clients as $client)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $client->mobile}}</td>
-                <td>{{ $client->getNameAttribute() }}</td>
-                <td>{{ $client->s_number }}</td>
-                <td>{{ $client->city }}</td>
-                <td>
-                    <a href="{{route('admin-clients-show', $client->id)}}" class="btn btn-sm py-0 btn-outline-success"><i class="fa fa-eye"></i> &nbsp;{{__('clients.show')}}</a>
-                    <a href="{{route('admin-clients-edit', $client->id)}}" class="btn btn-sm py-0 btn-outline-primary"><i class="fa fa-edit"></i> &nbsp;{{__('clients.edit')}}</a>
-                    <form action="{{route('admin-clients-destroy', $client->id)}}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm py-0 btn-outline-danger"><i class="fa fa-trash"></i> &nbsp;{{__('clients.delete')}}</button>
-                    </form>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="5" class="text-center">{{__('clients.no_clients_yet')}}</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
+        class="btn"><i data-bs-toggle="tooltip" data-bs-title="{{__('clients.create')}}" class="fa fa-plus"></i></a>
+        </legend>
+    
+        <table id="myTable" class="table w-100" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{__('clients.mobile_number')}}</th>
+                    <th>{{__('clients.name')}}</th>
+                    <th>{{__('clients.s_number')}}</th>
+                    <th>{{__('clients.city')}}</th>
+                    <th>{{__('clients.actions')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($clients as $client)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $client->mobile}}</td>
+                    <td>{{ $client->getNameAttribute() }}</td>
+                    <td>{{ $client->s_number }}</td>
+                    <td>{{ $client->city }}</td>
+                    <td>
+                        <a href="{{route('admin-clients-show', $client->id)}}" class="btn btn-sm py-0" data-bs-toggle="tooltip" data-bs-title="{{__('clients.show')}}"><i class="fa fa-eye"></i></a>
+                        <a href="{{route('admin-clients-edit', $client->id)}}" class="btn btn-sm py-0" data-bs-toggle="tooltip" data-bs-title="{{__('clients.edit')}}"><i class="fa fa-edit"></i></a>
+                        <form action="{{route('admin-clients-destroy', $client->id)}}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm py-0" data-bs-toggle="tooltip" data-bs-title="{{__('clients.delete')}}"><i class="fa fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center">{{__('clients.no_clients_yet')}}</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </fieldset>
 </div>
 
 <div id="modals">
@@ -100,7 +114,7 @@
                             <span class="input-group-text "><i class="fa fa-sort-numeric-asc"></i></span>
                             <input type="button" class="form-control" value="{{$s_number}}">
                         </div>
-                            
+
                         <!-- معلومات الاتصال -->
                         <div class="input-group mb-2">
                             <span class="input-group-text"><i class="fa fa-phone"></i></span>

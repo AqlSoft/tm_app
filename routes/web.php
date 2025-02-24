@@ -45,7 +45,8 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::get('create', [UserController::class, 'create'])->name('create');
         Route::post('store', [UserController::class, 'store'])->name('store');
         Route::get('{user}/show', [UserController::class, 'show'])->name('show');
-        Route::get('{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::get('edit', [UserController::class, 'edit'])->name('edit');
+        Route::get('{user}/edit/profile', [UserController::class, 'editUsersProfile'])->name('edit-profile');
         Route::put('{user}/profile/update', [UserController::class, 'updateProfile'])->name('profile-update');
         Route::put('/update/account/info/{user}', [UserController::class, 'updateAccountInfo'])->name('update-account-info');
         Route::put('/{user}/change/password', [UserController::class, 'changePassword'])->name('change-password');
@@ -97,12 +98,13 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
 
     Route::prefix('clients')->name('clients-')->group(function () {
         Route::get('/list', [ClientController::class, 'index'])->name('index');
-        Route::get('create', [ClientController::class, 'create'])->name('create');
-        Route::post('store', [ClientController::class, 'store'])->name('store');
-        Route::get('{client}', [ClientController::class, 'show'])->name('show');
-        Route::get('{client}/edit', [ClientController::class, 'edit'])->name('edit');
-        Route::put('update/{client}', [ClientController::class, 'update'])->name('update');
-        Route::delete('{client}', [ClientController::class, 'destroy'])->name('destroy');
+        Route::get('/create', [ClientController::class, 'create'])->name('create');
+        Route::post('/store', [ClientController::class, 'store'])->name('store');
+        Route::get('/show/{client}', [ClientController::class, 'display'])->name('show');
+        
+        Route::get('/edit/{client}', [ClientController::class, 'edit'])->name('edit');
+        Route::put('/update/{client}', [ClientController::class, 'update'])->name('update');
+        Route::delete('/delete/{client}', [ClientController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('payments')->name('payments-')->group(function () {

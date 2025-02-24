@@ -20,6 +20,7 @@
     <link href="{{ asset('assets/admin/css/sidebar.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/my-custom-styles.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/admin-layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/dt/ar.css') }}">
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
@@ -28,6 +29,7 @@
  
     @if(app()->getLocale() == 'ar')
     <link rel="stylesheet" href="{{ asset('assets/admin/css/layout.rtl.css') }}">
+    
     @else
     <link rel="stylesheet" href="{{ asset('assets/admin/css/layout.ltr.css') }}">
     @endif
@@ -68,41 +70,7 @@
             event.preventDefault(); // منع ظهور الخطأ في وحدة التطوير
         });
 
-        // إعدادات التنبيهات
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": true,
-            "progressBar": true,
-            "positionClass": "toast-bottom-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}",
-            "preventDuplicates": false,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "30000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut",
-            "rtl": {{ app()->getLocale() == 'ar' ? 'true' : 'false' }}
-        };
-
-        // عرض رسائل النجاح
-        @if(Session::has('success'))
-            toastr.success("{{ Session::get('success') }}");
-        @endif
-
-        // عرض رسائل الخطأ
-        @if(Session::has('error'))
-            toastr.error("{{ Session::get('error') }}");
-        @endif
-
-        // عرض أخطاء التحقق
-        @if($errors->any())
-            @foreach($errors->all() as $error)
-                toastr.error("{{ $error }}");
-            @endforeach
-        @endif
+        
     </script>
     <script>
         // Toggle Sidebar on Mobile
@@ -132,16 +100,16 @@
             "debug": false,
             "newestOnTop": true,
             "progressBar": true,
-            /*"positionClass": "toast-top-left",
+            "positionClass": "toast-top-left",
             "preventDuplicates": false,
             "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "5000",
+            "timeOut": "10000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
-            "hideMethod": "fadeOut",*/
+            "hideMethod": "fadeOut",
             "rtl": true
         };
 
@@ -189,7 +157,11 @@
                 sidebar.classList.remove('open');
             }
         });
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
     @yield('footer_scripts')
+
 </body>
 </html>
