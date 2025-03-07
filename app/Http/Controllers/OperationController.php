@@ -37,9 +37,34 @@ class OperationController extends Controller
     public function store(Request $request)
     {
         //
+        
+        $validated = $request->validate([
+            'project_id'        => 'required|exists:projects,id',
+            's_number'          => 'required|unique:operations,s_number',
+            'name'              => 'required|string|max:50',
+            'order'             => 'required|numeric',
+            'description'       => 'nullable|string|max:255',
+            'supervisor_id'     => 'required|exists:users,id',
+            'starts_at'         => 'required|date',
+            'deadline'          => 'nullable|date|after:start_date',
+        ]);
+        
+
+        $validated['created_by'] = auth()->user()->id;
+        $validated['updated_by'] = auth()->user()->id;
+
+        try {
+            Operation::create($validated);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('operations.create_failed' . ': ' . $e->getMessage()));
+        }
+
+        return redirect()->back()->with('success', __('operations.created_successfully'));
     }
 
     /**
+     * Display the specified resource.
+     *
      * Display the specified resource.
      */
     public function show(Operation $operation)

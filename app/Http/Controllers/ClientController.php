@@ -60,10 +60,10 @@ class ClientController extends Controller
             $validated['is_active'] = $validated['is_active'] == 1 ? true : false;
             $validated['created_by'] = auth()->id();
             $validated['updated_by'] = auth()->id();
-            $validated['s_number'] = Client::generateSerialNumber();
+            $validated['s_number'] = Customer::generateSerialNumber();
 
             // استخدام create بدلاً من fill و save
-            $client = new Client();
+            $client = new Customer();
             $client->fill($validated);
             $client->save();
 
@@ -79,13 +79,26 @@ class ClientController extends Controller
     public function show($id)
     {
         //
-        $client = Client::with('projects')->findOrFail($id);
+        $client = Customer::with('projects')->findOrFail($id);
         $client->invoices = [];
         $client->payments = [];
         $client->notes = [];
 
-        $types = Client::$types;
+        $types = Customer::$types;
         return view('admin.clients.show', compact('client', 'types'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function projects($id)
+    {
+        $client = Customer::find($id);
+        if (!$client) {
+            return redirect()->back()->with('error', __('clients.not_found'));
+        }
+        $types = Customer::$types; // 
+        return view('admin.clients.projects.index', compact('client', 'types'));
     }
 
     /**

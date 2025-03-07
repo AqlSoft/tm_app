@@ -101,7 +101,7 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
         Route::get('/create', [ClientController::class, 'create'])->name('create');
         Route::post('/store', [ClientController::class, 'store'])->name('store');
         Route::get('/show/{client}', [ClientController::class, 'display'])->name('show');
-        
+        Route::get('/projects/list/{client}', [ClientController::class, 'projects'])->name('projects-index');
         Route::get('/edit/{client}', [ClientController::class, 'edit'])->name('edit');
         Route::put('/update/{client}', [ClientController::class, 'update'])->name('update');
         Route::delete('/delete/{client}', [ClientController::class, 'destroy'])->name('destroy');
@@ -119,12 +119,12 @@ Route::middleware('auth')->prefix('admin')->name('admin-')->group( function () {
 
     Route::prefix('projects')->name('projects-')->group(function () {
         Route::get('/list', [ProjectController::class, 'index'])->name('index');
-        Route::get('create', [ProjectController::class, 'create'])->name('create');
-        Route::post('store', [ProjectController::class, 'store'])->name('store');
-        Route::get('{project}', [ProjectController::class, 'show'])->name('show');
-        Route::get('{project}/edit', [ProjectController::class, 'edit'])->name('edit');
-        Route::put('{project}', [ProjectController::class, 'update'])->name('update');
-        Route::delete('{project}', [ProjectController::class, 'destroy'])->name('destroy');
+        Route::get('/create', [ProjectController::class, 'create'])->name('create');
+        Route::post('/store', [ProjectController::class, 'store'])->name('store');
+        Route::get('/show/{project}', [ProjectController::class, 'show'])->name('show');
+        Route::get('/edit/{project}', [ProjectController::class, 'edit'])->name('edit');
+        Route::put('/update/{project}', [ProjectController::class, 'update'])->name('update');
+        Route::delete('/delete/{project}', [ProjectController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('invoices')->name('invoices-')->group(function () {

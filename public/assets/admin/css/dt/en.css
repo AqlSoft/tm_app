@@ -17,14 +17,14 @@
 .dt-length select {
     margin: 0;
     border: 1px solid #aaa;
-    border-radius: 0 0.5rem 0.5rem 0 !important;
+    border-radius: 0.5rem 0 0 0.5rem !important;
     height: 2.5rem !important;
     padding: 0.5rem !important;
 }
 
 label[for="dt-length-0"] {
     margin: 0;
-    border-radius: 0.5rem 0 0 0.5rem !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
     border: 1px solid #aaa;
     height: 2.5rem !important;
     padding: 0.5rem !important;
@@ -43,13 +43,13 @@ label[for="dt-length-0"] {
 .dt-search input {
     margin: 0 !important;
     border: 1px solid #aaa;
-    border-radius: 0.5rem 0 0 0.5rem !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
     height: 2.5rem !important;
 }
 
 label[for="dt-search-0"] {
+    border-radius: 0.5rem 0 0 0.5rem !important;
     margin: 0;
-    border-radius: 0 0.5rem 0.5rem 0 !important;
     border: 1px solid #aaa;
     height: 2.5rem !important;
     padding: 0.5rem !important;
@@ -85,15 +85,15 @@ div.dt-paging nav button.dt-paging-button {
 }
 
 div.dt-paging nav button.dt-paging-button:first-child {
-    border-radius: 0 0.5rem 0.5rem 0 !important;
-}
-
-div.dt-paging nav button.dt-paging-button:last-child {
     border-radius: 0.5rem 0 0 0.5rem !important;
 }
 
+div.dt-paging nav button.dt-paging-button:last-child {
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+}
+
 div.dt-paging nav button.dt-paging-button + button.dt-paging-button {
-    border-right: 0 !important;
+    border-left: 0 !important;
 }
 
 .dt-container select,

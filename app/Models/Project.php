@@ -57,7 +57,7 @@ class Project extends Model
     // العلاقة مع نموذج Client
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Customer::class, 'client_id');
     }
 
     // العلاقة مع نموذج Team

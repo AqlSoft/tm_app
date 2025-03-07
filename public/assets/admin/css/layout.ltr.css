@@ -1,3 +1,45 @@
+fieldset {
+    border-radius: 0.25rem;
+    position: relative;
+}
+
+fieldset * {
+    font-family: "Cairo", sans-serif;
+}
+
+legend {
+    position: absolute;
+    left: 1rem;
+    right: auto;
+}
+
+/* تخصيص موقع Toastr حسب اتجاه الصفحة */
+#toast-container.toast-top-right {
+    top: 6rem !important;
+    left: auto !important;
+    right: 1rem !important;
+}
+
+/* تخصيص شكل التوست حسب اتجاه اللغة */
+#toast-container .toast {
+    direction: ltr;
+    padding: 15px 15px 15px 50px;
+}
+
+#toast-container .toast-title {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* تعديل موضع الأيقونة حسب اتجاه اللغة */
+#toast-container > div {
+    padding: 10px 50px 10px 15px !important;
+    background-position: right 15px center !important;
+}
+
+#toast-container {
+    z-index: 9999;
+}
 /* Form Inputs Styles */
 form .input-group > input.form-control,
 form .input-group > select.form-control,

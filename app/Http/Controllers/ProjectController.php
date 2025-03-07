@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Customer;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -27,9 +29,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $clients = Client::all();
+        $client = Customer::find(request()->query('client'));
+        $managers = User::all();
         $s_number = Project::generateSerialNumber();
-        return view('admin.projects.create', compact('clients', 's_number'));
+        return view('admin.projects.create', compact('s_number', 'managers', 'client'));
     }
 
     /**
@@ -38,15 +41,19 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'name_ar' => 'required|string|max:255|unique:projects,name_ar',
-            'name_en' => 'required|string|max:255|unique:projects,name_en',
-            'description_ar' => 'nullable|string',
-            'description_en' => 'nullable|string',
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date',
-            'status' => 'nullable|in:tender,ongoing,finished,held,pending',
-            's_number' => 'nullable|string|max:255|unique:projects,s_number',
+            'client_id'         => 'required|exists:customers,id',
+            'name_ar'           => 'required|string|max:255|unique:projects,name_ar',
+            'name_en'           => 'required|string|max:255|unique:projects,name_en',
+            'description_ar'    => 'nullable|string',
+            'description_en'    => 'nullable|string',
+            'start_date'        => 'required|date',
+            'end_date'          => 'nullable|date',
+            'status'            => 'nullable|string|in:held,tender,ongoing,finished,pending',
+            'period'            => 'required|integer',
+            'project_type'      => 'required|string',
+            'time_unit'         => 'required|string|in:hours,days,weeks,months,years',
+            'manager_id'        => 'required|exists:users,id',
+            's_number'          => 'nullable|string|max:255|unique:projects,s_number',
         ]);
 
         $validated['created_by'] = auth()->user()->id;
@@ -57,7 +64,7 @@ class ProjectController extends Controller
             Project::create($validated);
             return Redirect::back()->with('success', __('project.created_successfully'));
         } catch (\Exception $e) {
-            return Redirect::back()->with('error', __('project.create_failed' . ': ' . $e->getMessage()));
+            return Redirect::back()->withInput()->with('error', __('project.create_failed' . ': ' . $e->getMessage()));
         }
     }
 
@@ -67,7 +74,8 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         //
-        return view('admin.projects.show', compact('project'));
+        $supervisors = User::all();
+        return view('admin.projects.show', compact('project', 'supervisors'));
     }
 
     /**

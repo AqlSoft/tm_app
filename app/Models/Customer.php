@@ -106,6 +106,16 @@ class Customer extends Model
         return $this->hasMany(Project::class, 'client_id');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'client_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'client_id');
+    }
+
     // التحقق من عدم تكرار القيم الفريدة
     public static function boot()
     {
@@ -137,12 +147,5 @@ class Customer extends Model
             }
         });
     }
-
-    public function invoices() {
-        return $this->hasMany(Invoice::class, 'client_id');
-    }
-
-    public function payments() {
-        return $this->hasMany(Payment::class, 'client_id');
-    }
+   
 }

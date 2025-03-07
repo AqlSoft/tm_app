@@ -20,18 +20,19 @@
     <link href="{{ asset('assets/admin/css/sidebar.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/my-custom-styles.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/admin-layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/dt/ar.css') }}">
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
     {{-- specially called styles --}}
     @yield('styles')
- 
+    
     @if(app()->getLocale() == 'ar')
     <link rel="stylesheet" href="{{ asset('assets/admin/css/layout.rtl.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/dt/ar.css') }}">
     
     @else
     <link rel="stylesheet" href="{{ asset('assets/admin/css/layout.ltr.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/dt/en.css') }}">
     @endif
 </head>
 <body class="bg-gray-100">
@@ -94,25 +95,6 @@
        
     <script>
 
-        // إعدادات التوستر
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": true,
-            "progressBar": true,
-            "positionClass": "toast-top-left",
-            "preventDuplicates": false,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "10000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut",
-            "rtl": true
-        };
-
         // عرض رسائل النجاح
         @if(Session::has('success'))
             toastr.success("{{ Session::get('success') }}", "{{ __('general.success') }}");
@@ -158,10 +140,77 @@
             }
         });
 
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    </script>
-    @yield('footer_scripts')
 
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+    @section('footer_scripts')
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    @if (app()->getLocale() == 'ar')
+    <script>
+        let table = new DataTable('#myTable', {
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/ar.json',
+                lengthMenu: "_MENU_ سجلات لكل صفحة",
+                paginate: {
+                    first: '<<',
+                    last: '>>',
+                    next: '>',
+                    previous: '<'
+                }
+            }
+        });
+        // إعدادات التوستر
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-left",
+            "preventDuplicates": false,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "10000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "rtl": true
+        };
+    </script>
+    @else
+    <script>
+        let table = new DataTable('#myTable', {
+            language: {
+                paginate: {
+                    first: '<<',
+                    last: '>>',
+                    next: '>',
+                    previous: '<'
+                }
+            }
+        });
+        // إعدادات التوستر
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "10000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "rtl": true
+        };
+    </script>
+    @endif
+    @show
 </body>
 </html>

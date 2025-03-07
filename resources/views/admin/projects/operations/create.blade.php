@@ -3,8 +3,7 @@
 @section('content')
 <div class="container">
     <fieldset class="border p-3 rounded">
-
-        <legend class="w-auto py-2 rounded">Add New Operation</legend>
+        <legend class=""> New Operation</legend>
         <h5 class="mt-3">Adding new operation for project: {{ $project->name }}</h5>
         <h6 class="mb-3">Serial Number: {{ $project->s_number }}</h6>
         <form class="mt-4" action="{{ route('admin-operations-store') }}" method="POST">

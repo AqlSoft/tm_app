@@ -29,11 +29,12 @@
 }
 </style>
 <div class="container">
+    
     <div class="row">
-        <div class="col-md-7">
-            <fieldset class="border p-3 profile-props">
+        <div class="col-md-7 mx-0 p-1 mb-3">
+            <fieldset class="border m-0 profile-props">
                 <legend class="w-auto py-1 px-4 rounded">المعلومات الأساسية</legend>
-                <div class="d-flex pt-2">
+                <div class="d-flex px-3">
                     <div class="" style="width: 90px">
                         @if($client->logo)
                             <img src="{{ asset('storage/' . $client->logo) }}" alt="شعار العميل" 
@@ -44,7 +45,7 @@
                             </div>
                         @endif
                     </div>
-                    <div class="px-3" style="width: 60%">
+                    <div class="" style="width: 60%">
                         <p class="prop-item py-0 my-0 fs-6 fw-bold" id="full_name">{{ mb_substr($client->getNameAttribute(), 0, 20) }}</p>
                         <p class="prop-item py-0 my-0" id="city"><i class="fa fa-map-marker"></i> &nbsp;{{ $client->city }}</p>
                         <p class="prop-item py-0 my-0" id="address"><i class="fa fa-location-dot"></i> &nbsp;{{ $client->address }}</p>      
@@ -55,7 +56,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 ps-3 mb-3">
                         <p class="prop-item py-0 my-0" data-bs-toggle="tooltip" 
                             data-bs-title="{{__('clients.email')}}" id="email">
                             <i class="fa fa-at"></i> &nbsp;{{ $client->email ?? __('dashboard.not_assigned') }}</p>
@@ -72,7 +73,7 @@
                             data-bs-title="{{__('clients.whatsapp')}}" id="whatsapp">
                             <i class="fa-brands fa-whatsapp"></i> &nbsp;{{ $client->whatsapp ?? __('dashboard.not_assigned') }}</p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 ps-3 mb-3">
                         <p class="prop-item py-0 my-0" data-bs-toggle="tooltip" 
                             data-bs-title="{{__('clients.website')}}" id="website">
                             <i class="fa fa-globe"></i> &nbsp;{{ $client->website ?? __('dashboard.not_assigned') }}</p>
@@ -93,24 +94,24 @@
             </fieldset>
         </div>
 
-        <div class="col-md-5">
-            <fieldset class="p-0 rounded" style="height: 220px">
+        <div class="col-md-5 mx-0 p-1 mb-3">
+            <fieldset class="m-0 rounded" style="height: 240px">
                 <legend class="w-auto py-1 rounded">الموقع</legend>
                 <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d2615432.484748006!2d48.312370218306555!3d25.13265020587655!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2ssa!4v1739697882735!5m2!1sen!2ssa"
                 width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </fieldset>
         </div>
 
-        <div class="col-md-12 mt-3">
-            <fieldset class="border rounded">
-                <legend class="w-auto py-2 rounded">المشاريع &nbsp;
-                <a href="{{ route('admin-projects-create', $client->id) }}"><i class="fa fa-plus text-primary"></i></a>
-                <a href="{{ route('admin-projects-index', $client->id) }}"><i class="fa fa-list text-primary"></i></a>
+        <div class="col-md-12 mx-0 p-1 mb-3">
+            <fieldset class="border m-0 rounded">
+                <legend class="w-auto py-1 rounded">المشاريع &nbsp;
+                    <a href="{{ route('admin-projects-create', [$client->id]) }}"><i class="fa fa-plus text-primary"></i></a>
+                    <a href="{{ route('admin-clients-projects-index', [$client->id]) }}"><i class="fa fa-list text-primary"></i></a>
                 </legend>
-                <div class="row">
+                <div class="row mx-3">
 
                     @foreach ($client->projects as $project)
-                    <div class="col col-md-4">
+                    <div class="col col-md-4 px-1 mb-2">
                         <div class="row border m-0 rounded bg-light shadow-sm" style="overflow: hidden">
                             <div class="col-3 p-1 text-center status-{{ $project->status }}">
                                 <h1 class="fw-bold fs-1">{{ $loop->iteration }}</h1>
@@ -128,17 +129,16 @@
                     </div>
                     @endforeach
                 </div>
-               
             </fieldset>
         </div>
 
-        <div class="col-md-12 mt-4">
-            <fieldset class="border p-2 rounded">
-                <legend class="w-auto py-2 rounded">الفواتير &nbsp;
+        <div class="col-md-12 mx-0 p-1 mb-3">
+            <fieldset class="border m-0 rounded">
+                <legend class="w-auto py-1 rounded">الفواتير &nbsp;
                     <a href="{{ route('admin-invoices-create', $client->id) }}"> <i class="fa fa-plus text-primary"></i></a>  
                 </legend>
                 @foreach ($client->invoices as $invoice)
-                <div class="border rounded" loop->>
+                <div class="border rounded">
                     <h5>فاتورة رقم {{ @$invoice->id }}</h5>
                     <small>تاريخ الإصدار: {{ @$invoice->issue_date }}</small><br>
                     <small>المبلغ: {{ @$invoice->amount }}</small><br>
@@ -149,9 +149,9 @@
             </fieldset>
         </div>
 
-        <div class="col-md-12 mt-4">
-            <fieldset class="border p-2 rounded">
-                <legend class="w-auto py-2 rounded">المدفوعات &nbsp;
+        <div class="col-md-12 mx-0 p-1 mb-3">
+            <fieldset class="border m-0 rounded">
+                <legend class="w-auto py-1 rounded">المدفوعات &nbsp;
                     <a href="{{ route('admin-payments-create', $client->id) }}"> <i class="fa fa-plus text-primary"></i></a>  
                 </legend>
                 @foreach ($client->payments as $payment)
@@ -165,9 +165,11 @@
             </fieldset>
         </div>
 
-        <div class="col-md-12 mt-4">
-            <fieldset class="border p-2">
-                <legend class="w-auto">الملاحظات</legend>
+        <div class="col-md-12 mx-0 p-1 mb-3">
+            <fieldset class="border m-0 rounded">
+                <legend class="w-auto py-1 rounded">الملاحظات &nbsp;
+                    <a href="{{ route('admin-notes-create', $client->id) }}" class="fa fa-plus text-primary"></a>
+                </legend>
                 @forelse ( [] as $note)
                 <div class="border p-2 mb-2">
                     <small>التاريخ: {{ @$note->note_date }}</small><br>
@@ -179,7 +181,6 @@
                     <p>No notes found</p>
                 </div>
                 @endforelse
-                <a href="{{ route('admin-notes-create', $client->id) }}" class="btn btn-primary">إضافة ملاحظة جديدة</a>
             </fieldset>
         </div>
     </div>
