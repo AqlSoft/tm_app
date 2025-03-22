@@ -82,6 +82,11 @@ class User extends Authenticatable
         return $this->hasMany(Task::class, 'created_by');
     }
 
+    public static function currentUserId()
+    {
+        return auth()->user()->id;
+    }
+
     public function hasRole($role)
     {
         return $this->roles()->where('name', $role)->exists();

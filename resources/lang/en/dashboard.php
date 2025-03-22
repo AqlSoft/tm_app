@@ -10,6 +10,7 @@ return [
     'teams_list' => 'Teams List',
     'teams_count' => 'Teams Count',
     'show_teams' => 'Show Teams',
+    'projects' => 'Projects',
     // languages
     'arabic' => 'العربية',
     'english' => 'English',

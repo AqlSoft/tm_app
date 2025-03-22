@@ -4,7 +4,13 @@
      / <a href="{{ route('admin-clients-projects-index' , $client->id) }}">{{__('Projects List')}}</a>
      / <div class="breadcrumb-item active">{{__('Create New')}}</div>
 @endsection
-
+{{-- 
+-- Create New Project.
+-- Displays a form to create a new project.
+-- admins can create new projects from this view.
+-- clients list is required for this form
+-- url:admin-projects-create , action: admin-projects-store
+--}}
 @section('content')
 
 <div class="container">

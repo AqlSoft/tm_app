@@ -13,7 +13,7 @@
                 <label class="input-group-text" for="name">Operation Name</label>
                 <input type="text" name="name" class="form-control" required>
                 <label class="input-group-text">Order</label>
-                <label class="input-group-text">{{$order}}</label>
+                <label class="input-group-text">{{$newOrder}}</label>
                 <label class="input-group-text">Serial Number</label>
                 <label class="input-group-text">{{$gen_serial_number}}</label>
             </div>

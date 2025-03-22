@@ -24,11 +24,13 @@ class OperationController extends Controller
     {
         //
         $project = Project::find($id);
+
+        $newOrder = $project->lastOperationOrder();
         $projects = Project::all();
         $supervisors = User::all();
         $gen_serial_number = Operation::generateSerialNumber($project);
         $order = Operation::getLastOperationOrder($project);
-        return view('admin.projects.operations.create', compact('project', 'projects', 'gen_serial_number', 'order', 'supervisors'));
+        return view('admin.projects.operations.create', compact('project', 'projects', 'gen_serial_number', 'order', 'supervisors', 'newOrder'));
     }
 
     /**

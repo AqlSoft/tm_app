@@ -134,6 +134,13 @@
                                 <span>{{ __('dashboard.clients_categories') }}</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('admin-projects-index')}}" 
+                                class="nav-link {{ Request::is('admin/clients_projects/*') ? 'active' : '' }}">
+                                <i class="fas fa-user-tag"></i>
+                                <span>{{ __('dashboard.projects') }}</span>
+                            </a>
+                        </li>
                        
                     </ul>
                 </div>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Customer;
+use App\Models\CustomerType;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class ClientController extends Controller
     {
         //
         $clients = Customer::all();
-        $types = Customer::$types;
+        $types = CustomerType::all();
         $s_number = Customer::generateSerialNumber();
         return view('admin.clients.index', compact('clients', 'types', 's_number'));
     }
@@ -40,26 +41,24 @@ class ClientController extends Controller
     {
         try {
             $validated = $request->validate([
-                'name_ar' => 'required|string|max:255',
-                'name_en' => 'required|string|max:255',
-                'type' => 'required',
-                'identity_number' => 'nullable|string|max:10',
-                'commercial_record' => 'nullable|string|max:10',
-                'tax_number' => 'nullable|string|max:16',
-                'brand_name' => 'nullable|string|max:50',
-                'phone' => 'nullable|string|max:14',
-                'mobile' => 'nullable|string|max:14',
-                'email' => 'nullable|string|email|max:255',
-                'website' => 'nullable|string|max:255',
-                'city' => 'required|string|max:50',
-                'address' => 'nullable|string|max:255',
-                'notes' => 'nullable|string|max:255',
-                'is_active' => 'required',
+                'name_ar'               => 'required|string|max:255',
+                'name_en'               => 'required|string|max:255',
+                'type'                  => 'required',
+                'identity_number'       => 'nullable|string|max:10',
+                'commercial_record'     => 'nullable|string|max:10',
+                'tax_number'            => 'nullable|string|max:16',
+                'brand_name'            => 'nullable|string|max:50',
+                'phone'                 => 'nullable|string|max:14',
+                'mobile'                => 'nullable|string|max:14',
+                'email'                 => 'nullable|string|email|max:255',
+                'website'               => 'nullable|string|max:255',
+                'notes'                 => 'nullable|string|max:255',
+                'is_active'             => 'required',
             ]);
 
             $validated['is_active'] = $validated['is_active'] == 1 ? true : false;
-            $validated['created_by'] = auth()->id();
-            $validated['updated_by'] = auth()->id();
+            $validated['created_by'] = User::currentUserId();
+            $validated['updated_by'] = User::currentUserId();
             $validated['s_number'] = Customer::generateSerialNumber();
 
             // استخدام create بدلاً من fill و save
@@ -84,7 +83,7 @@ class ClientController extends Controller
         $client->payments = [];
         $client->notes = [];
 
-        $types = Customer::$types;
+        $types = CustomerType::all();
         return view('admin.clients.show', compact('client', 'types'));
     }
 
@@ -97,7 +96,7 @@ class ClientController extends Controller
         if (!$client) {
             return redirect()->back()->with('error', __('clients.not_found'));
         }
-        $types = Customer::$types; // 
+        $types = CustomerType::all(); // 
         return view('admin.clients.projects.index', compact('client', 'types'));
     }
 
@@ -107,7 +106,7 @@ class ClientController extends Controller
     public function display(Customer $client)
     {
         //
-        $types = Customer::$types;
+        $types = CustomerType::all();
         return view('admin.clients.show', compact('client', 'types'));
     }
 
@@ -117,8 +116,11 @@ class ClientController extends Controller
     public function edit($id)
     {
         //
-        $client = Client::findOrFail($id);
-        $types = Client::$types;
+        $client = Customer::find($id);
+        if (!$client) {
+            return redirect()->back()->with('error', __('clients.not_found'));
+        }
+        $types = CustomerType::all();
         return view('admin.clients.edit', compact('client', 'types'));
     }
 
@@ -127,7 +129,10 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $client = Client::findOrFail($id);
+        $client = Customer::find($id);
+        if (!$client) {
+            return redirect()->back()->with('error', __('clients.not_found'));
+        }
         
         try {
             $validated = $request->validate([
@@ -148,7 +153,7 @@ class ClientController extends Controller
             ]);
 
             $validated['is_active']     = isset($request->is_active) && $request->is_active == 1 ? true : false;
-            $validated['updated_by']    = auth()->id();
+            $validated['updated_by']    = User::currentUserId();
 
             // تحديث البيانات مع التحقق من القيم الفريدة
             $client->fill($validated);

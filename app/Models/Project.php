@@ -15,16 +15,19 @@ class Project extends Model
     // تحديد الأعمدة القابلة للتعبئة بشكل جماعي
     protected $fillable = [
         'client_id',
-        'name_ar',
-        'name_en',
-        'description_ar',
-        'description_en',
+        'name',
+        'description',
         'start_date',
-        'end_date',
+        'est_period',
+        'time_unit',
         'status',
+        'base_budget',
+        'project_type',
+        'manager_id',
+        's_number',
         'created_by',
         'updated_by',
-        's_number'
+        
     ];
 
     // دالة توليد الرقم التسلسلي
@@ -77,5 +80,9 @@ class Project extends Model
     }
     public function operations () {
         return $this->hasMany(Operation::class);
+    }
+
+    public function lastOperationOrder () {
+        return ($this->operations()->count() ?? 0) + 1;
     }
 }

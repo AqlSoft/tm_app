@@ -89,8 +89,8 @@
                             <span class="input-group-text"><i class="fa fa-user-tag"></i> <span class="text-danger">*</span></span>
                             <select name="type" class="form-control" required>
                                 <option hidden>{{ __('clients.select_client_type') }}</option>
-                                @foreach ($types as $item => $type)
-                                    <option value="{{$item}}" {{old('type') == $item ? 'selected' : ''}}>{{ __('clients.' . $type) }}</option>
+                                @foreach ($types as $type)
+                                    <option value="{{$type->id}}" {{old('type') == $type->id ? 'selected' : ''}}>{{ $type->name }}</option>
                                 @endforeach
                             </select>
                         

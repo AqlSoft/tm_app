@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProjectRequest;
 use App\Models\Client;
 use App\Models\Customer;
 use App\Models\Project;
@@ -38,26 +39,12 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateProjectRequest $request)
     {
-        $validated = $request->validate([
-            'client_id'         => 'required|exists:customers,id',
-            'name_ar'           => 'required|string|max:255|unique:projects,name_ar',
-            'name_en'           => 'required|string|max:255|unique:projects,name_en',
-            'description_ar'    => 'nullable|string',
-            'description_en'    => 'nullable|string',
-            'start_date'        => 'required|date',
-            'end_date'          => 'nullable|date',
-            'status'            => 'nullable|string|in:held,tender,ongoing,finished,pending',
-            'period'            => 'required|integer',
-            'project_type'      => 'required|string',
-            'time_unit'         => 'required|string|in:hours,days,weeks,months,years',
-            'manager_id'        => 'required|exists:users,id',
-            's_number'          => 'nullable|string|max:255|unique:projects,s_number',
-        ]);
 
-        $validated['created_by'] = auth()->user()->id;
-        $validated['updated_by'] = auth()->user()->id;
+
+        $validated['created_by'] = User::currentUserId();
+        $validated['updated_by'] = User::currentUserId();
         $validated['s_number'] = Project::generateSerialNumber();
 
         try {
@@ -74,8 +61,9 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         //
+        $newOrder = $project->lastOperationOrder();
         $supervisors = User::all();
-        return view('admin.projects.show', compact('project', 'supervisors'));
+        return view('admin.projects.show', compact('project', 'supervisors', 'newOrder'));
     }
 
     /**
@@ -103,7 +91,7 @@ class ProjectController extends Controller
             'end_date' => 'required|date',
         ]);
 
-        $validated['updated_by'] = auth()->user()->id;
+        $validated['updated_by'] = User::currentUserId();
 
         try {
             $project->fill($validated);

@@ -9,7 +9,11 @@
 </style>
 <div class="container">
     <div class="row">
-
+{{-- 
+-- Client Project details.
+-- Displays a project's details and client information.
+-- admins can modify and moderate the project details from this view.
+--}}
         <div class="col-md-6 mb-4">
             <fieldset class="">
                 <legend class="">{{__('projects.project_details')}}&nbsp;</legend>
@@ -43,11 +47,12 @@
                 <legend class=""> {{__('projects.operations')}} &nbsp; 
                     <a data-bs-toggle="modal" data-bs-target="#addOperationModal" href="{{ route('admin-operations-create', [$project->id]) }}"> <i class="fa fa-plus text-primary"></i></a>
                 </legend>
-                <div class="row mx-3 mb-3">
-                    @forelse ($project->operations as $operation)
-                    <div class="col col-md-4">
-                        <div class="card">
-                            <div class="card-header py-1 px-3">
+                <div class="px-3 mb-3">
+                    <div class="row">
+                        @forelse ($project->operations as $operation)
+                        <div class="col col-md-4">
+                            <div class="card">
+                                <div class="card-header py-1 px-3">
                                 {{ $operation->order }} - {{ $operation->name }} &nbsp; 
                                 <a href="{{ route('admin-operations-edit', [$project->id, $operation->id]) }}"> <i class="fa fa-edit text-primary"></i></a>
                             </div>
@@ -135,8 +140,8 @@
                                 <label class="input-group-text" for="name">{{__('projects.operation_name')}}</label>
                                 <input type="text" name="name" class="form-control" required>
                                 <label class="input-group-text">{{__('projects.order')}}</label>
-                                <input type="hidden" name="order" value="{{App\Models\Operation::count()+1}}">
-                                <label class="input-group-text">{{App\Models\Operation::count()+1}}</label>
+                                <input type="hidden" name="order" value="{{$newOrder}}">
+                                <label class="input-group-text">{{$newOrder}}</label>
                             </div>
                             <div class="input-group mb-2">
                                 <label class="input-group-text" >{{__('projects.serial_number')}}</label>

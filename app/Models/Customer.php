@@ -17,18 +17,12 @@ class Customer extends Model
     protected $fillable = [
         'name_ar',
         'name_en',
-        'type',
+        'type_id',
         'identity_number',
         'commercial_record',
         'tax_number',
+        's_number',
         'brand_name',
-        'subscription_date',
-        'phone',
-        'mobile',
-        'email',
-        'website',
-        'city',
-        'address',
         'notes',
         'is_active',
         'created_by',
@@ -41,7 +35,6 @@ class Customer extends Model
         'identity_number',
         'commercial_record',
         'tax_number',
-        'email',
         's_number'
     ];
 
@@ -51,24 +44,13 @@ class Customer extends Model
         'deleted_at'
     ];
 
-    public static $types = [
-        'individual', 
-        'company', 
-        'governmental', 
-        'ngo',
-        'factory', 
-        'farm', 
-        'office',
-        'others'
-    ];
-
     // دالة توليد الرقم التسلسلي
     public static function generateSerialNumber()
     {
         $prefix = 'CTR';
         $year = date('Y');
         $month = date('m');
-        return $lastClient = self::lastClient();
+        $lastClient = self::lastClient();
         if ($lastClient) {
             $lastNumber = intval(substr($lastClient->s_number, -6));
             $newNumber = str_pad($lastNumber + 1, 6, '0', STR_PAD_LEFT);
@@ -77,6 +59,11 @@ class Customer extends Model
         }
 
         return $prefix . $year . $month . $newNumber;
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(CustomerType::class, 'type_id');
     }
 
     public static function lastClient() {
